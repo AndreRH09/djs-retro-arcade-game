@@ -1,11 +1,13 @@
 [gd_scene format=3 uid="uid://db28tpmtq7feb"]
 
 [ext_resource type="Texture2D" uid="uid://hnl6xxpf8vfo" path="res://assets/art/backgrounds/pitch-background.png" id="1_sugp2"]
+[ext_resource type="Script" uid="uid://bnk41kgq4y84w" path="res://utils/key_utils.gd" id="1_tbgi4"]
 [ext_resource type="Texture2D" uid="uid://ch5aeeb6layfv" path="res://assets/art/backgrounds/pitch-pattern.png" id="2_jyhfs"]
 [ext_resource type="Texture2D" uid="uid://c3sp3x0tp5t55" path="res://assets/art/backgrounds/pitch-lines.png" id="3_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://bgujxmmbbksbr" path="res://scenes/characters/player.tscn" id="4_jyhfs"]
 
 [node name="World" type="Node2D" unique_id=1956238698]
+script = ExtResource("1_tbgi4")
 
 [node name="Background" type="Node2D" parent="." unique_id=1169065998]
 
@@ -24,5 +26,13 @@ modulate = Color(0.972549, 1, 0.92156863, 1)
 texture = ExtResource("3_tbgi4")
 centered = false
 
-[node name="player" parent="Background/lines" unique_id=222764467 instance=ExtResource("4_jyhfs")]
-position = Vector2(128, 111)
+[node name="player" parent="." unique_id=222764467 instance=ExtResource("4_jyhfs")]
+position = Vector2(186, 89)
+
+[node name="player3" parent="." unique_id=1083699204 instance=ExtResource("4_jyhfs")]
+position = Vector2(157, 164)
+control_scheme = 1
+
+[node name="player2" parent="." unique_id=243375516 instance=ExtResource("4_jyhfs")]
+position = Vector2(103, 112)
+control_scheme = 2
