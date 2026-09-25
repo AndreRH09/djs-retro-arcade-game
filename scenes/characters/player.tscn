@@ -54,16 +54,35 @@ tracks/0/keys = {
 "values": [6, 7, 8, 9, 10, 11]
 }
 
+[sub_resource type="Animation" id="Animation_atpat"]
+resource_name = "tackle"
+length = 0.1
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [30]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_dyp2m"]
 _data = {
 &"RESET": SubResource("Animation_yewv4"),
 &"idle": SubResource("Animation_76oj4"),
-&"running": SubResource("Animation_dyp2m")
+&"running": SubResource("Animation_dyp2m"),
+&"tackle": SubResource("Animation_atpat")
 }
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ostoq"]
-radius = 4.0
-height = 20.0
+radius = 2.7
+height = 14.0
 
 [node name="player" type="CharacterBody2D" unique_id=222764467]
 script = ExtResource("1_yewv4")
@@ -84,6 +103,6 @@ libraries/ = SubResource("AnimationLibrary_dyp2m")
 autoplay = &"idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=829716793]
-position = Vector2(0, -3)
+position = Vector2(-0.705, -2.095)
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_ostoq")
