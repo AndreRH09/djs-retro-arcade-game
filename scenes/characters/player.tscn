@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://crl02j5pnlwbb" path="res://assets/art/characters/soccer-player.png" id="1_rp718"]
 [ext_resource type="Script" uid="uid://7w6xeyasr1ty" path="res://scenes/characters/player.gd" id="1_yewv4"]
+[ext_resource type="Script" path="res://scenes/characters/ai/cpu_movement.gd" id="3_cpu"]
 
 [sub_resource type="Animation" id="Animation_yewv4"]
 length = 0.001
@@ -85,8 +86,14 @@ radius = 2.7
 height = 14.0
 
 [node name="player" type="CharacterBody2D" unique_id=222764467]
+motion_mode = 1
 script = ExtResource("1_yewv4")
 speed = 120.0
+movement_bounds = Rect2(78, 52, 694, 282)
+
+[node name="CpuMovement" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("3_cpu")
 
 [node name="playerSprite" type="Sprite2D" parent="." unique_id=364082383]
 unique_name_in_owner = true
