@@ -47,7 +47,17 @@ func get_velocity(
 		_observation_elapsed = 0.0
 
 	# Entre observaciones se sigue el último destino calculado.
-	var destination := _destination
+	return get_arrival_velocity(position, _destination, speed, delta, bounds, stop_distance, slow_distance)
+
+
+## SEEK + ARRIVE hacia un punto fijo, sin error ni predicción del objetivo.
+## La patrulla usa sus propias distancias para poder alcanzar cada waypoint.
+func get_arrival_velocity(
+	position: Vector2, destination: Vector2, speed: float, delta: float,
+	bounds: Rect2 = Rect2(), stopping_distance: float = 0.0, slowing_distance: float = 16.0
+) -> Vector2:
+	if delta <= 0.0 or speed <= 0.0:
+		return Vector2.ZERO
 	if bounds.has_area():
 		destination = destination.clamp(bounds.position, bounds.end)
 	
@@ -56,12 +66,12 @@ func get_velocity(
 	var distance := displacement.length()
 	
 	# ARRIVE: detenerse al alcanzar la distancia de parada.
-	var remaining_distance := distance - stop_distance
+	var remaining_distance := distance - maxf(stopping_distance, 0.0)
 	if remaining_distance <= ARRIVAL_TOLERANCE:
 		return Vector2.ZERO
 
 	# ARRIVE: reducir la velocidad progresivamente al acercarse.
-	var slowing_range := maxf(slow_distance - stop_distance, 1.0)
+	var slowing_range := maxf(slowing_distance - maxf(stopping_distance, 0.0), 1.0)
 	var arrival_speed := speed * clampf(remaining_distance / slowing_range, 0.0, 1.0)
 	
 	# Evitar sobrepasar la distancia de parada en un paso de física largo.

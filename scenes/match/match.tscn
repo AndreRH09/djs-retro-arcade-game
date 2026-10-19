@@ -1,0 +1,187 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/main.tscn" id="1_training"]
+[ext_resource type="Script" path="res://scenes/match/match_session.gd" id="2_session"]
+[ext_resource type="Script" path="res://scenes/match/match_controller.gd" id="3_controller"]
+[ext_resource type="Script" path="res://scenes/match/match_goal.gd" id="4_goal"]
+[ext_resource type="Script" path="res://scenes/match/match_hud.gd" id="5_hud"]
+[ext_resource type="Script" path="res://scenes/match/match_camera.gd" id="6_camera"]
+[ext_resource type="Script" path="res://scenes/match/match_player_indicator.gd" id="7_indicator"]
+[ext_resource type="Shader" path="res://scenes/match/player_palette.gdshader" id="8_palette_shader"]
+[ext_resource type="Texture2D" path="res://assets/art/palettes/teams-color-palette.png" id="9_team_palette"]
+[ext_resource type="Texture2D" path="res://assets/art/palettes/skin-colors-palette.png" id="10_skin_palette"]
+[ext_resource type="Texture2D" path="res://assets/art/characters/player-shadow.png" id="11_shadow"]
+[ext_resource type="Script" path="res://scenes/characters/ai/cpu_ball_defense.gd" id="12_defense"]
+[ext_resource type="Script" path="res://scenes/match/match_controls_help.gd" id="13_controls"]
+[ext_resource type="Script" path="res://scenes/characters/ball/player_ball_tackle.gd" id="14_tackle"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_humans"]
+shader = ExtResource("8_palette_shader")
+shader_parameter/team_palette = ExtResource("9_team_palette")
+shader_parameter/skin_palette = ExtResource("10_skin_palette")
+shader_parameter/team_row = 1
+shader_parameter/skin_row = 0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cpu"]
+shader = ExtResource("8_palette_shader")
+shader_parameter/team_palette = ExtResource("9_team_palette")
+shader_parameter/skin_palette = ExtResource("10_skin_palette")
+shader_parameter/team_row = 8
+shader_parameter/skin_row = 0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cpu_teammate"]
+shader = ExtResource("8_palette_shader")
+shader_parameter/team_palette = ExtResource("9_team_palette")
+shader_parameter/skin_palette = ExtResource("10_skin_palette")
+shader_parameter/team_row = 8
+shader_parameter/skin_row = 2
+
+[node name="World" node_paths=PackedStringArray("controller") instance=ExtResource("1_training")]
+script = ExtResource("2_session")
+controller = NodePath("MatchController")
+
+[node name="CpuPatrolRoute" parent="." index="1"]
+position = Vector2(610, 193)
+show_route = false
+
+[node name="player" parent="." index="2"]
+position = Vector2(550, 150)
+
+[node name="CpuPatrolDebug" parent="player" index="2"]
+visible = false
+
+[node name="playerSprite" parent="player" index="3"]
+material = SubResource("ShaderMaterial_cpu")
+
+[node name="BallIndicator" parent="player" index="7"]
+script = ExtResource("7_indicator")
+
+[node name="PlayerShadow" type="Sprite2D" parent="player" index="10"]
+z_index = -1
+position = Vector2(0, -7)
+texture = ExtResource("11_shadow")
+
+[node name="CpuBallDefense" type="Node" parent="player" index="11" node_paths=PackedStringArray("ball", "movement", "defended_goal")]
+script = ExtResource("12_defense")
+enabled = true
+ball = NodePath("../../Ball")
+movement = NodePath("../CpuMovement")
+defended_goal = NodePath("../../RightGoal")
+
+[node name="PlayerBallTackle" type="Node" parent="player" index="12" node_paths=PackedStringArray("ball")]
+script = ExtResource("14_tackle")
+enabled = true
+ball = NodePath("../../Ball")
+
+[node name="cpu_teammate" parent="." index="3"]
+position = Vector2(550, 250)
+
+[node name="CpuPatrolDebug" parent="cpu_teammate" index="2"]
+visible = false
+
+[node name="playerSprite" parent="cpu_teammate" index="3"]
+material = SubResource("ShaderMaterial_cpu_teammate")
+
+[node name="BallIndicator" parent="cpu_teammate" index="7"]
+script = ExtResource("7_indicator")
+
+[node name="PlayerShadow" type="Sprite2D" parent="cpu_teammate" index="10"]
+z_index = -1
+position = Vector2(0, -7)
+texture = ExtResource("11_shadow")
+
+[node name="CpuBallDefense" type="Node" parent="cpu_teammate" index="11" node_paths=PackedStringArray("ball", "movement", "defended_goal")]
+script = ExtResource("12_defense")
+enabled = true
+ball = NodePath("../../Ball")
+movement = NodePath("../CpuMovement")
+defended_goal = NodePath("../../RightGoal")
+
+[node name="PlayerBallTackle" type="Node" parent="cpu_teammate" index="12" node_paths=PackedStringArray("ball")]
+script = ExtResource("14_tackle")
+enabled = true
+ball = NodePath("../../Ball")
+
+[node name="AttackTarget" parent="." index="4"]
+position = Vector2(78, 193)
+visible = false
+
+[node name="player3" parent="." index="5"]
+position = Vector2(300, 150)
+
+[node name="playerSprite" parent="player3" index="3"]
+material = SubResource("ShaderMaterial_humans")
+
+[node name="BallIndicator" parent="player3" index="7"]
+script = ExtResource("7_indicator")
+
+[node name="PlayerShadow" type="Sprite2D" parent="player3" index="10"]
+z_index = -1
+position = Vector2(0, -7)
+texture = ExtResource("11_shadow")
+
+[node name="PlayerBallTackle" type="Node" parent="player3" index="11" node_paths=PackedStringArray("ball")]
+script = ExtResource("14_tackle")
+enabled = true
+ball = NodePath("../../Ball")
+
+[node name="player2" parent="." index="6"]
+position = Vector2(300, 250)
+
+[node name="playerSprite" parent="player2" index="3"]
+material = SubResource("ShaderMaterial_humans")
+
+[node name="BallIndicator" parent="player2" index="7"]
+script = ExtResource("7_indicator")
+
+[node name="PlayerShadow" type="Sprite2D" parent="player2" index="10"]
+z_index = -1
+position = Vector2(0, -7)
+texture = ExtResource("11_shadow")
+
+[node name="PlayerBallTackle" type="Node" parent="player2" index="11" node_paths=PackedStringArray("ball")]
+script = ExtResource("14_tackle")
+enabled = true
+ball = NodePath("../../Ball")
+
+[node name="Ball" parent="." index="7"]
+position = Vector2(425, 193)
+
+[node name="InterceptionDebug" parent="." index="8"]
+visible = false
+
+[node name="TrainingCamera" parent="." index="9" node_paths=PackedStringArray("ball")]
+script = ExtResource("6_camera")
+ball = NodePath("../Ball")
+
+[node name="TrainingHud" parent="TrainingOverlay" index="0" node_paths=PackedStringArray("controller")]
+script = ExtResource("5_hud")
+controller = NodePath("../../MatchController")
+
+[node name="ControlsHelp" type="Node2D" parent="TrainingOverlay" index="1"]
+process_mode = 3
+z_index = 10
+script = ExtResource("13_controls")
+
+[node name="LeftGoal" type="Node2D" parent="."]
+position = Vector2(78, 193)
+script = ExtResource("4_goal")
+side = -1
+scoring_team = 1
+
+[node name="RightGoal" type="Node2D" parent="."]
+position = Vector2(772, 193)
+script = ExtResource("4_goal")
+side = 1
+scoring_team = 0
+
+[node name="MatchController" type="Node" parent="." node_paths=PackedStringArray("ball", "players", "goals")]
+script = ExtResource("3_controller")
+ball = NodePath("../Ball")
+players = Array[NodePath]([NodePath("../player3"), NodePath("../player2"), NodePath("../player"), NodePath("../cpu_teammate")])
+goals = Array[NodePath]([NodePath("../LeftGoal"), NodePath("../RightGoal")])
+
+[editable path="player"]
+[editable path="cpu_teammate"]
+[editable path="player3"]
+[editable path="player2"]

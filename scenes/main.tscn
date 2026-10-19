@@ -5,10 +5,21 @@
 [ext_resource type="Texture2D" uid="uid://c3sp3x0tp5t55" path="res://assets/art/backgrounds/pitch-lines.png" id="3_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://bgujxmmbbksbr" path="res://scenes/characters/player.tscn" id="4_jyhfs"]
 [ext_resource type="Resource" uid="uid://c7y1e670nt27b" path="res://scenes/characters/ai/easy.tres" id="5_tbgi4"]
+[ext_resource type="Script" path="res://scenes/characters/ai/cpu_patrol_route.gd" id="6_route"]
+[ext_resource type="PackedScene" path="res://scenes/ball/ball.tscn" id="7_ball"]
+[ext_resource type="Script" path="res://scenes/training/training_session.gd" id="8_session"]
+[ext_resource type="Script" path="res://scenes/training/training_camera.gd" id="9_camera"]
+[ext_resource type="Script" path="res://scenes/training/training_hud.gd" id="10_hud"]
+[ext_resource type="Script" path="res://scenes/characters/ai/cpu_interception_debug.gd" id="11_prediction_debug"]
+[ext_resource type="Script" path="res://scenes/training/training_attack_target.gd" id="12_attack_target"]
 
-[node name="World" type="Node2D" unique_id=1956238698]
+[node name="World" type="Node2D" unique_id=1956238698 node_paths=PackedStringArray("ball")]
+script = ExtResource("8_session")
+ball = NodePath("Ball")
+y_sort_enabled = true
 
 [node name="Background" type="Node2D" parent="." unique_id=1169065998]
+z_index = -10
 
 [node name="grass" type="Sprite2D" parent="Background" unique_id=2083715337]
 modulate = Color(0.45490196, 0.85882354, 0.11372549, 1)
@@ -25,19 +36,109 @@ modulate = Color(0.972549, 1, 0.92156863, 1)
 texture = ExtResource("3_tbgi4")
 centered = false
 
+[node name="CpuPatrolRoute" type="Node2D" parent="."]
+z_index = -1
+position = Vector2(200, 95)
+script = ExtResource("6_route")
+
+[node name="Point1" type="Marker2D" parent="CpuPatrolRoute"]
+position = Vector2(-30, -20)
+
+[node name="Point2" type="Marker2D" parent="CpuPatrolRoute"]
+position = Vector2(30, -20)
+
+[node name="Point3" type="Marker2D" parent="CpuPatrolRoute"]
+position = Vector2(30, 20)
+
+[node name="Point4" type="Marker2D" parent="CpuPatrolRoute"]
+position = Vector2(-30, 20)
+
 [node name="player" parent="." unique_id=222764467 instance=ExtResource("4_jyhfs")]
 position = Vector2(186, 89)
+team_id = 1
+display_name = "CPU 1"
 
 [node name="CpuMovement" parent="player" index="0" node_paths=PackedStringArray("target")]
 target = NodePath("../../player3")
 difficulty = ExtResource("5_tbgi4")
 
+[node name="CpuPatrol" parent="player" index="1" node_paths=PackedStringArray("route")]
+enabled = true
+route = NodePath("../../CpuPatrolRoute")
+
+[node name="CpuPatrolDebug" parent="player" index="2"]
+visible = true
+
+[node name="BallInteraction" parent="player" index="6" node_paths=PackedStringArray("ball")]
+ball = NodePath("../../Ball")
+
+[node name="CpuBallInterceptor" parent="player" index="8" node_paths=PackedStringArray("ball")]
+enabled = true
+ball = NodePath("../../Ball")
+
+[node name="CpuBallAttack" parent="player" index="9" node_paths=PackedStringArray("attack_target")]
+enabled = true
+attack_target = NodePath("../../AttackTarget")
+
+[node name="cpu_teammate" parent="." instance=ExtResource("4_jyhfs")]
+position = Vector2(245, 145)
+team_id = 1
+display_name = "CPU 2"
+
+[node name="CpuPatrolDebug" parent="cpu_teammate" index="2"]
+visible = true
+
+[node name="BallInteraction" parent="cpu_teammate" index="6" node_paths=PackedStringArray("ball")]
+ball = NodePath("../../Ball")
+
+[node name="CpuBallInterceptor" parent="cpu_teammate" index="8" node_paths=PackedStringArray("ball")]
+enabled = true
+ball = NodePath("../../Ball")
+
+[node name="CpuBallAttack" parent="cpu_teammate" index="9" node_paths=PackedStringArray("attack_target")]
+enabled = true
+attack_target = NodePath("../../AttackTarget")
+
+[node name="AttackTarget" type="Marker2D" parent="."]
+position = Vector2(755, 193)
+z_index = -1
+script = ExtResource("12_attack_target")
+
 [node name="player3" parent="." unique_id=1083699204 instance=ExtResource("4_jyhfs")]
 position = Vector2(157, 164)
 control_scheme = 1
+
+[node name="BallInteraction" parent="player3" index="6" node_paths=PackedStringArray("ball")]
+ball = NodePath("../../Ball")
 
 [node name="player2" parent="." unique_id=243375516 instance=ExtResource("4_jyhfs")]
 position = Vector2(103, 112)
 control_scheme = 2
 
+[node name="BallInteraction" parent="player2" index="6" node_paths=PackedStringArray("ball")]
+ball = NodePath("../../Ball")
+
+[node name="Ball" parent="." instance=ExtResource("7_ball")]
+unique_name_in_owner = true
+position = Vector2(170, 164)
+
+[node name="InterceptionDebug" type="Node2D" parent="." node_paths=PackedStringArray("interceptor")]
+z_index = -1
+script = ExtResource("11_prediction_debug")
+interceptor = NodePath("../player/CpuBallInterceptor")
+
+[node name="TrainingCamera" type="Camera2D" parent="." node_paths=PackedStringArray("ball", "interceptor")]
+script = ExtResource("9_camera")
+ball = NodePath("../Ball")
+interceptor = NodePath("../player/CpuBallInterceptor")
+
+[node name="TrainingOverlay" type="CanvasLayer" parent="."]
+
+[node name="TrainingHud" type="Node2D" parent="TrainingOverlay" node_paths=PackedStringArray("ball")]
+script = ExtResource("10_hud")
+ball = NodePath("../../Ball")
+
 [editable path="player"]
+[editable path="cpu_teammate"]
+[editable path="player3"]
+[editable path="player2"]

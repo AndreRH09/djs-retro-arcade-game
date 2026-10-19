@@ -1,18 +1,32 @@
-# dsjRetro
-godot engine retro game dev project
+# DSJRetro
 
-## Movimiento de la CPU
+Juego de fútbol arcade 2 contra 2, desarrollado con Godot 4.7. P1 y P2 juegan contra dos CPU. Gana el primer equipo que marque tres goles.
 
-Al ejecutar `scenes/main.tscn`, `player` es la CPU y sigue a `player3` (P1)
-con dificultad **Normal**. P1 usa las flechas y L para el tackle; P2 usa WASD
-y G. El tackle conserva su duración de 0,2 s y requiere movimiento horizontal.
+## Ejecutar
 
-### Organización
+Abre `project.godot` en Godot 4.7 y pulsa **F5**. La escena principal es `scenes/match/match.tscn`.
 
-- `scenes/characters/player.gd`: controles humanos, movimiento físico, límites,
-  orientación, tackle y animaciones compartidas.
-- `scenes/characters/ai/cpu_movement.gd`: seguimiento del objetivo, observaciones
-  periódicas, anticipación y frenado al llegar (Seek + Arrive).
-- `scenes/characters/ai/cpu_difficulty.gd`: definición de los ajustes de dificultad.
-- `scenes/characters/ai/easy.tres`, `normal.tres`, `hard.tres`: perfiles editables
-  desde el Inspector, sin cambiar el algoritmo.
+En Windows puedes usar `Jugar.cmd`: busca Godot en `GODOT_EXE`, en el PATH o como `Godot.exe` junto al proyecto.
+
+## Controles
+
+| Acción | P1 | P2 |
+| --- | --- | --- |
+| Moverse y apuntar | Flechas | WASD |
+| Pasar | K | F |
+| Cargar y disparar | Mantener L y soltar | Mantener G y soltar |
+| Robar sin balón | Moverse horizontalmente + L | Moverse horizontalmente + G |
+
+**F1** abre la ayuda y pausa el partido. **F1** o **Esc** cierran la ayuda. **R** empieza un partido nuevo.
+
+## Organización
+
+- `scenes/match/`: partido, goles, marcador, cámara y ayuda.
+- `scenes/characters/ai/`: movimiento, dificultad, patrulla, defensa, intercepción y ataque de la CPU.
+- `scenes/characters/ball/`: conducción, pases, disparos y entradas.
+- `scenes/ball/`: posesión, física y predicción del balón.
+- `scenes/main.tscn`: cancha base y práctica de waypoints.
+
+Los perfiles `easy.tres`, `normal.tres` y `hard.tres` ajustan la reacción, anticipación y precisión desde el Inspector de `CpuMovement`.
+
+Referencia: [Soccer Course de Nicolas Bize](https://github.com/nicolasbize/soccer-course/releases/tag/v0.2.4). Créditos y licencia en [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).

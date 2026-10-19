@@ -3,6 +3,12 @@
 [ext_resource type="Texture2D" uid="uid://crl02j5pnlwbb" path="res://assets/art/characters/soccer-player.png" id="1_rp718"]
 [ext_resource type="Script" uid="uid://7w6xeyasr1ty" path="res://scenes/characters/player.gd" id="1_yewv4"]
 [ext_resource type="Script" path="res://scenes/characters/ai/cpu_movement.gd" id="3_cpu"]
+[ext_resource type="Script" path="res://scenes/characters/ai/cpu_patrol.gd" id="4_patrol"]
+[ext_resource type="Script" path="res://scenes/characters/ai/cpu_patrol_debug.gd" id="5_debug"]
+[ext_resource type="Script" path="res://scenes/characters/ball/player_ball_interaction.gd" id="6_ball"]
+[ext_resource type="Script" path="res://scenes/characters/ball/player_ball_indicator.gd" id="7_indicator"]
+[ext_resource type="Script" path="res://scenes/characters/ai/cpu_ball_interceptor.gd" id="8_interceptor"]
+[ext_resource type="Script" path="res://scenes/characters/ai/cpu_ball_attack.gd" id="9_attack"]
 
 [sub_resource type="Animation" id="Animation_yewv4"]
 length = 0.001
@@ -73,12 +79,41 @@ tracks/0/keys = {
 "values": [30]
 }
 
+[sub_resource type="Animation" id="Animation_prep_kick"]
+resource_name = "prep_kick"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [48]
+}
+
+[sub_resource type="Animation" id="Animation_kick"]
+resource_name = "kick"
+length = 0.15
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [49, 50, 51]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_dyp2m"]
 _data = {
 &"RESET": SubResource("Animation_yewv4"),
 &"idle": SubResource("Animation_76oj4"),
 &"running": SubResource("Animation_dyp2m"),
-&"tackle": SubResource("Animation_atpat")
+&"tackle": SubResource("Animation_atpat"),
+&"prep_kick": SubResource("Animation_prep_kick"),
+&"kick": SubResource("Animation_kick")
 }
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ostoq"]
@@ -94,6 +129,19 @@ movement_bounds = Rect2(78, 52, 694, 282)
 [node name="CpuMovement" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("3_cpu")
+
+[node name="CpuPatrol" type="Node" parent="." node_paths=PackedStringArray("movement")]
+unique_name_in_owner = true
+script = ExtResource("4_patrol")
+movement = NodePath("../CpuMovement")
+
+[node name="CpuPatrolDebug" type="Node2D" parent="." node_paths=PackedStringArray("patrol", "interceptor", "attack")]
+visible = false
+z_index = 1
+script = ExtResource("5_debug")
+patrol = NodePath("../CpuPatrol")
+interceptor = NodePath("../CpuBallInterceptor")
+attack = NodePath("../CpuBallAttack")
 
 [node name="playerSprite" type="Sprite2D" parent="." unique_id=364082383]
 unique_name_in_owner = true
@@ -113,3 +161,22 @@ autoplay = &"idle"
 position = Vector2(-0.705, -2.095)
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_ostoq")
+
+[node name="BallInteraction" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("6_ball")
+
+[node name="BallIndicator" type="Node2D" parent="."]
+z_index = 1
+script = ExtResource("7_indicator")
+
+[node name="CpuBallInterceptor" type="Node" parent="." node_paths=PackedStringArray("movement")]
+unique_name_in_owner = true
+script = ExtResource("8_interceptor")
+movement = NodePath("../CpuMovement")
+
+[node name="CpuBallAttack" type="Node" parent="." node_paths=PackedStringArray("movement", "interaction")]
+unique_name_in_owner = true
+script = ExtResource("9_attack")
+movement = NodePath("../CpuMovement")
+interaction = NodePath("../BallInteraction")
