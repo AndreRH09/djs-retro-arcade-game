@@ -182,9 +182,10 @@ ball = NodePath("../Ball")
 players = Array[NodePath]([NodePath("../player3"), NodePath("../player2"), NodePath("../player"), NodePath("../cpu_teammate")])
 goals = Array[NodePath]([NodePath("../LeftGoal"), NodePath("../RightGoal")])
 
-[node name="MatchAudio" type="Node" parent="." node_paths=PackedStringArray("ball")]
+[node name="MatchAudio" type="Node" parent="." node_paths=PackedStringArray("ball", "controller")]
 script = ExtResource("15_audio")
 ball = NodePath("../Ball")
+controller = NodePath("../MatchController")
 
 [editable path="player"]
 [editable path="cpu_teammate"]
