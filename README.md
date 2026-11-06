@@ -29,4 +29,15 @@ En Windows puedes usar `Jugar.cmd`: busca Godot en `GODOT_EXE`, en el PATH o com
 
 Los perfiles `easy.tres`, `normal.tres` y `hard.tres` ajustan la reacción, anticipación y precisión desde el Inspector de `CpuMovement`.
 
+## Equipaciones
+
+Las camisetas se cambian con `team_row` y `shirt_pattern` en el material de cada `playerSprite` (shader `scenes/match/player_palette.gdshader`). Vista previa en `docs/kits-liga1-preview.png`.
+
+| `team_row` | Club | `shirt_pattern` |
+| --- | --- | --- |
+| 9 | Melgar | 1 (mitades) |
+| 10 | Alianza Lima | 2 (franjas) |
+| 11 | Sporting Cristal | 0 (liso) |
+| 12 | Cienciano | 0 (liso) |
+
 Referencia: [Soccer Course de Nicolas Bize](https://github.com/nicolasbize/soccer-course/releases/tag/v0.2.4). Créditos y licencia en [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
