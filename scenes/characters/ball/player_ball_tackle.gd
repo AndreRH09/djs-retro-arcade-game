@@ -41,6 +41,7 @@ func begin(direction: Vector2) -> bool:
 	_elapsed = 0.0
 	_resolved = false
 	player.velocity = _direction * player.speed
+	SoundPlayer.play(SoundPlayer.Sound.TACKLING)
 	return true
 
 
