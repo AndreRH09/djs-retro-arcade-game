@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 KeyUtils="*uid://bnk41kgq4y84w"
 SoundPlayer="*res://scenes/audio/sound_player.gd"
+MusicPlayer="*res://scenes/audio/music_player.gd"
 
 [display]
 

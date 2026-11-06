@@ -12,6 +12,7 @@ func _ready() -> void:
 		ball.kicked.connect(_on_ball_kicked)
 	if is_instance_valid(controller):
 		controller.state_changed.connect(_on_match_state_changed)
+	MusicPlayer.play_music(MusicPlayer.Music.GAMEPLAY)
 
 
 func _on_ball_kicked(kind: String) -> void:
@@ -24,6 +25,10 @@ func _on_ball_kicked(kind: String) -> void:
 
 func _on_match_state_changed(new_state: MatchController.State) -> void:
 	match new_state:
-		MatchController.State.PLAYING, MatchController.State.GOAL, MatchController.State.FINISHED:
-			# Pitazo al iniciar el juego tras el saque, al anotarse un gol y al terminar.
+		MatchController.State.PLAYING, MatchController.State.GOAL:
+			# Pitazo al iniciar el juego tras el saque y al anotarse un gol.
 			SoundPlayer.play(SoundPlayer.Sound.WHISTLE)
+			MusicPlayer.play_music(MusicPlayer.Music.GAMEPLAY)
+		MatchController.State.FINISHED:
+			SoundPlayer.play(SoundPlayer.Sound.WHISTLE)
+			MusicPlayer.play_music(MusicPlayer.Music.WIN)
