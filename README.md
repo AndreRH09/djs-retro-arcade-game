@@ -37,7 +37,7 @@ Las camisetas se cambian con `team_row` y `shirt_pattern` en el material de cada
 | --- | --- | --- |
 | 9 | Melgar | 1 (mitades) |
 | 10 | Alianza Lima | 2 (franjas) |
-| 11 | Sporting Cristal | 0 (liso) |
-| 12 | Cienciano | 0 (liso) |
+| 11 | Sporting Cristal | 3 (franja en el pecho) |
+| 12 | Cienciano | 3 (franja en el pecho) |
 
 Referencia: [Soccer Course de Nicolas Bize](https://github.com/nicolasbize/soccer-course/releases/tag/v0.2.4). Créditos y licencia en [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
