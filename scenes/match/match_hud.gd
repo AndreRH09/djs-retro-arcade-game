@@ -5,8 +5,10 @@ extends Node2D
 @export var controller: MatchController
 @export_group("Aspecto del marcador")
 @export var pixel_font: FontFile = preload("res://assets/fonts/Pixeled.ttf")
-@export var human_flag: Texture2D = preload("res://assets/art/ui/flags/flag-usa.png")
-@export var cpu_flag: Texture2D = preload("res://assets/art/ui/flags/flag-france.png")
+@export var human_flag: Texture2D = preload("res://assets/art/ui/flags/flag-melgar.png")
+@export var cpu_flag: Texture2D = preload("res://assets/art/ui/flags/flag-alianza.png")
+@export var human_team_name := "MELGAR"
+@export var cpu_team_name := "ALIANZA"
 
 const INK := Color("dedede")
 const YELLOW := Color("e8ef00")
@@ -92,7 +94,7 @@ func _draw_notice(size: Vector2) -> void:
 
 
 func _team_name(team: int) -> String:
-	return "HUMANOS" if team == 0 else "CPU"
+	return human_team_name if team == 0 else cpu_team_name
 
 
 func _draw_flag(flag: Texture2D, point: Vector2) -> void:
