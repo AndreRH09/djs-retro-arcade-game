@@ -20,22 +20,25 @@
 shader = ExtResource("8_palette_shader")
 shader_parameter/team_palette = ExtResource("9_team_palette")
 shader_parameter/skin_palette = ExtResource("10_skin_palette")
-shader_parameter/team_row = 1
+shader_parameter/team_row = 9
 shader_parameter/skin_row = 0
+shader_parameter/shirt_pattern = 1
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_cpu"]
 shader = ExtResource("8_palette_shader")
 shader_parameter/team_palette = ExtResource("9_team_palette")
 shader_parameter/skin_palette = ExtResource("10_skin_palette")
-shader_parameter/team_row = 8
+shader_parameter/team_row = 10
 shader_parameter/skin_row = 0
+shader_parameter/shirt_pattern = 2
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_cpu_teammate"]
 shader = ExtResource("8_palette_shader")
 shader_parameter/team_palette = ExtResource("9_team_palette")
 shader_parameter/skin_palette = ExtResource("10_skin_palette")
-shader_parameter/team_row = 8
+shader_parameter/team_row = 10
 shader_parameter/skin_row = 2
+shader_parameter/shirt_pattern = 2
 
 [node name="World" node_paths=PackedStringArray("controller") instance=ExtResource("1_training")]
 script = ExtResource("2_session")
