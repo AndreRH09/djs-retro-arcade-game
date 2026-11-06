@@ -125,7 +125,7 @@ func recover_from_tackle(duration: float) -> void:
 	state = State.RECOVERING
 	_recovery_time_left = maxf(duration, 0.0)
 	_tackle_time_left = 0.0
-	velocity = Vector2.ZERO
+	velocity = Vector2.ZERO	
 	ball_interaction.reset()
 	reset_cpu_controllers()
 
