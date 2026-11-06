@@ -23,6 +23,7 @@ shader_parameter/skin_palette = ExtResource("10_skin_palette")
 shader_parameter/team_row = 9
 shader_parameter/skin_row = 0
 shader_parameter/shirt_pattern = 1
+shader_parameter/shirt_crest = 1
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_cpu"]
 shader = ExtResource("8_palette_shader")

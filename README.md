@@ -33,11 +33,13 @@ Los perfiles `easy.tres`, `normal.tres` y `hard.tres` ajustan la reacción, anti
 
 Las camisetas se cambian con `team_row` y `shirt_pattern` en el material de cada `playerSprite` (shader `scenes/match/player_palette.gdshader`). Vista previa en `docs/kits-liga1-preview.png`.
 
-| `team_row` | Club | `shirt_pattern` |
+| `team_row` | Club | Opciones del shader |
 | --- | --- | --- |
-| 9 | Melgar | 1 (mitades) |
-| 10 | Alianza Lima | 2 (franjas) |
-| 11 | Sporting Cristal | 3 (franja en el pecho) |
-| 12 | Cienciano | 3 (franja en el pecho) |
+| 9 | Melgar | `shirt_pattern = 1` (mitades), `shirt_crest = 1` |
+| 10 | Alianza Lima | `shirt_pattern = 2` (franjas) |
+| 11 | Sporting Cristal | `shirt_crest = 1`, `crest_dot = 1` |
+| 12 | Cienciano | `shirt_crest = 1`, `shirt_collar = 1` |
+
+Escudo: cuadrado de 3x3 px en el pecho, sin logos reales; el punto y el cuello usan las columnas 10-11 de la paleta.
 
 Referencia: [Soccer Course de Nicolas Bize](https://github.com/nicolasbize/soccer-course/releases/tag/v0.2.4). Créditos y licencia en [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
