@@ -29,12 +29,13 @@ void vertex() {
 	sprite_modulate = COLOR;
 }
 
-bool use_secondary_shirt(vec2 uv) {
+// Los valores integrados (UV, TEXTURE_PIXEL_SIZE) solo existen en fragment(): se pasan como argumentos.
+bool use_secondary_shirt(vec2 uv, vec2 texel_size) {
 	if (shirt_pattern == 0) {
 		return false;
 	}
 	// UV recorre toda la hoja: se obtiene el fotograma y la X dentro de él.
-	vec2 pixel = uv / TEXTURE_PIXEL_SIZE;
+	vec2 pixel = uv / texel_size;
 	int frame_x = int(floor(pixel.x / FRAME_SIZE));
 	int frame_y = int(floor(pixel.y / FRAME_SIZE));
 	int frame = clamp(frame_y * FRAME_COLUMNS + frame_x, 0, FRAME_COUNT - 1);
@@ -56,7 +57,7 @@ void fragment() {
 		vec3 source = texture(team_palette, vec2(source_x, 0.5 / palette_size.y)).rgb;
 		if (distance(original.rgb, source) < 0.001) {
 			int target_column = column;
-			if (column >= 4 && use_secondary_shirt(UV)) {
+			if (column >= 4 && use_secondary_shirt(UV, TEXTURE_PIXEL_SIZE)) {
 				target_column = column + 2;
 			}
 			float target_x = (float(target_column) + 0.5) / palette_size.x;
