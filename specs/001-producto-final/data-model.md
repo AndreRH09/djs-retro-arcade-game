@@ -5,7 +5,7 @@
 |---|---|---|
 | id | StringName | único (`melgar`, `alianza`, `cristal`, `cienciano`, `universitario`, `huancayo`, `adt`, `cusco`) |
 | display_name | String | ≤ 12 chars, mayúsculas en marcador |
-| short_name | String | ≤ 8 chars para HUD |
+| short_name | String | ≤ 9 chars para HUD y avisos |
 | flag | Texture2D | 22×14 |
 | team_row | int | 9–16, única por club |
 | shirt_pattern | int | 0 liso, 1 mitades, 2 franjas |

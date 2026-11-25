@@ -1,0 +1,64 @@
+[gd_resource type="Resource" script_class="ClubData" format=3]
+
+[ext_resource type="Script" path="res://scenes/clubs/club_data.gd" id="1_club"]
+[ext_resource type="Script" path="res://scenes/clubs/squad_player.gd" id="2_player"]
+[ext_resource type="Texture2D" path="res://assets/art/ui/flags/flag-cienciano.png" id="3_flag"]
+
+[sub_resource type="Resource" id="p0"]
+script = ExtResource("2_player")
+player_name = "W. MAMANI"
+role = 0
+skin_row = 0
+speed = 110.0
+power = 0.9
+
+[sub_resource type="Resource" id="p1"]
+script = ExtResource("2_player")
+player_name = "I. CCAMA"
+role = 1
+skin_row = 1
+speed = 118.0
+power = 1.0
+
+[sub_resource type="Resource" id="p2"]
+script = ExtResource("2_player")
+player_name = "S. HUAMAN"
+role = 1
+skin_row = 2
+speed = 122.0
+power = 0.95
+
+[sub_resource type="Resource" id="p3"]
+script = ExtResource("2_player")
+player_name = "Y. CONDORI"
+role = 2
+skin_row = 1
+speed = 128.0
+power = 1.05
+
+[sub_resource type="Resource" id="p4"]
+script = ExtResource("2_player")
+player_name = "U. TUPA"
+role = 2
+skin_row = 0
+speed = 125.0
+power = 1.1
+
+[sub_resource type="Resource" id="p5"]
+script = ExtResource("2_player")
+player_name = "Z. INCA"
+role = 3
+skin_row = 2
+speed = 134.0
+power = 1.15
+
+[resource]
+script = ExtResource("1_club")
+id = &"cienciano"
+display_name = "CIENCIANO"
+short_name = "CIENCIANO"
+flag = ExtResource("3_flag")
+team_row = 12
+shirt_pattern = 0
+squad = Array[ExtResource("2_player")]([SubResource("p0"), SubResource("p1"), SubResource("p2"), SubResource("p3"), SubResource("p4"), SubResource("p5")])
+design_status = 1

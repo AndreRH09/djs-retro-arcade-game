@@ -5,16 +5,14 @@ extends Node2D
 @export var controller: MatchController
 @export_group("Aspecto del marcador")
 @export var pixel_font: FontFile = preload("res://assets/fonts/Pixeled.ttf")
-@export var human_flag: Texture2D = preload("res://assets/art/ui/flags/flag-melgar.png")
-@export var cpu_flag: Texture2D = preload("res://assets/art/ui/flags/flag-alianza.png")
-@export var human_team_name := "MELGAR"
-@export var cpu_team_name := "ALIANZA"
 
 const INK := Color("dedede")
 const YELLOW := Color("e8ef00")
 const BACKGROUND := Color("252525")
 const BAR_SIZE := Vector2(200, 12)
 const FONT_SIZE := 5
+## Las banderas miden 22×14 y la barra 12: se recorta 1 px arriba y abajo en vez de escalar.
+const FLAG_REGION := Rect2(0, 1, 22, 12)
 
 var _font: Font
 
@@ -42,9 +40,9 @@ func _draw() -> void:
 	# Mismo orden de la referencia: nombre, bandera, resultado, bandera y estado.
 	draw_rect(Rect2(origin, BAR_SIZE), BACKGROUND)
 	_draw_fitted_text(_carrier_name(), origin + Vector2(4, 10), 56, INK)
-	_draw_flag(human_flag, origin + Vector2(64, 0))
+	_draw_flag(GameSession.club_for_team(0), origin + Vector2(63, 0))
 	_center_text("%d - %d" % [controller.scores[0], controller.scores[1]], origin + Vector2(100, 10), FONT_SIZE, YELLOW)
-	_draw_flag(cpu_flag, origin + Vector2(115, 0))
+	_draw_flag(GameSession.club_for_team(1), origin + Vector2(115, 0))
 	_center_text(_status_text(), origin + Vector2(168, 10), FONT_SIZE, YELLOW)
 	_draw_notice(size)
 
@@ -94,12 +92,13 @@ func _draw_notice(size: Vector2) -> void:
 
 
 func _team_name(team: int) -> String:
-	return human_team_name if team == 0 else cpu_team_name
+	var club := GameSession.club_for_team(team)
+	return club.short_name if club != null else "EQUIPO %d" % (team + 1)
 
 
-func _draw_flag(flag: Texture2D, point: Vector2) -> void:
-	if flag != null:
-		draw_texture_rect(flag, Rect2(point, Vector2(21, 12)), false)
+func _draw_flag(club: ClubData, point: Vector2) -> void:
+	if club != null and club.flag != null:
+		draw_texture_rect_region(club.flag, Rect2(point, FLAG_REGION.size), FLAG_REGION)
 
 
 func _center_text(text: String, point: Vector2, font_size: int, color: Color) -> void:
