@@ -40,8 +40,8 @@ description: "Task list: Producto final DSJRetro"
 
 **Goal**: pantalla de entrada con 3 opciones. **Independent Test**: quickstart HU-08.
 
-- [ ] T009 [US1] Crear `scenes/screens/main_menu.tscn` + `main_menu.gd`: opciones Un jugador / PvP local / Salir, navegación ↑↓ y confirmar; fija `GameSession.mode` y cambia a `team_selection.tscn`
-- [ ] T010 [US1] Cambiar `run/main_scene` a `res://scenes/screens/main_menu.tscn` en `project.godot`
+- [x] T009 [US1] Crear `scenes/screens/main_menu.tscn` + `main_menu.gd`: opciones Un jugador / PvP local / Salir, navegación ↑↓ y confirmar; fija `GameSession.mode` y cambia a `team_selection.tscn`
+- [x] T010 [US1] Cambiar `run/main_scene` a `res://scenes/screens/main_menu.tscn` en `project.godot`
 
 ---
 
@@ -49,8 +49,8 @@ description: "Task list: Producto final DSJRetro"
 
 **Goal**: elegir club(es). **Independent Test**: quickstart HU-08.
 
-- [ ] T011 [US2] Crear `scenes/screens/team_selection.tscn` + `team_selection.gd`: carrusel de clubes con `ClubData.design_status == APPROVED` (data-model.md `ClubData.design_status`), muestra bandera y `display_name`
-- [ ] T012 [US2] PvP en `team_selection.gd`: P2 elige con A/D/F, bloquear club ya confirmado por el otro jugador (si confirman el mismo club en el mismo frame gana el primero en procesarse, P1), Esc vuelve al menú; al confirmar setea `GameSession.home_club/away_club` y va a `bracket.tscn` (SINGLE) o `match.tscn` (PVP)
+- [x] T011 [US2] Crear `scenes/screens/team_selection.tscn` + `team_selection.gd`: carrusel de clubes con `ClubData.design_status == APPROVED` (data-model.md `ClubData.design_status`), muestra bandera y `display_name`
+- [ ] T012 [US2] PvP en `team_selection.gd`: P2 elige con A/D/F, bloquear club ya confirmado por el otro jugador (si confirman el mismo club en el mismo frame gana el primero en procesarse, P1), Esc vuelve al menú; al confirmar setea `GameSession.home_club/away_club` y va a `bracket.tscn` (SINGLE) o `match.tscn` (PVP) — HECHO salvo la llave: en SINGLE hoy va directo al partido con rival sorteado hasta T030
 
 ---
 

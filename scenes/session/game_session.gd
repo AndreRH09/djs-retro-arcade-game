@@ -23,6 +23,8 @@ func _ready() -> void:
 			var club := load(CLUBS_DIR + file) as ClubData
 			if club != null:
 				_clubs.append(club)
+	# Orden estable en pantallas: el de la paleta (Melgar, Alianza, Cristal, Cienciano, ...).
+	_clubs.sort_custom(func(a: ClubData, b: ClubData) -> bool: return a.team_row < b.team_row)
 	home_club = get_club(DEFAULT_HOME)
 	away_club = get_club(DEFAULT_AWAY)
 
