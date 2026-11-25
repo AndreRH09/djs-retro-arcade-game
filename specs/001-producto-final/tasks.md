@@ -50,7 +50,7 @@ description: "Task list: Producto final DSJRetro"
 **Goal**: elegir club(es). **Independent Test**: quickstart HU-02.
 
 - [ ] T011 [US2] Crear `scenes/screens/team_selection.tscn` + `team_selection.gd`: carrusel de clubes con `ClubData.design_status == APPROVED` (data-model.md `ClubData.design_status`), muestra bandera y `display_name`
-- [ ] T012 [US2] PvP en `team_selection.gd`: P2 elige con A/D/F, bloquear club ya confirmado por P1, Esc vuelve al menú; al confirmar setea `GameSession.home_club/away_club` y va a `bracket.tscn` (SINGLE) o `match.tscn` (PVP)
+- [ ] T012 [US2] PvP en `team_selection.gd`: P2 elige con A/D/F, bloquear club ya confirmado por el otro jugador (si confirman el mismo club en el mismo frame gana el primero en procesarse, P1), Esc vuelve al menú; al confirmar setea `GameSession.home_club/away_club` y va a `bracket.tscn` (SINGLE) o `match.tscn` (PVP)
 
 ---
 
@@ -92,7 +92,7 @@ description: "Task list: Producto final DSJRetro"
 - [ ] T021 [US5] Crear `CpuBrain` en `scenes/characters/ai/cpu_brain.gd`: evalúa condiciones de research.md R2 cada `CpuDifficulty.decision_interval`, activa/desactiva `cpu_ball_interceptor`, `cpu_ball_defense`, `cpu_patrol`, `cpu_ball_attack` según la hoja; registra última acción para debug
 - [ ] T022 [US5] Crear árbol `scenes/characters/ai/trees/default_tree.tres` (posesión → distancia al arco → compañero libre → disparo/pase/conducción; sin posesión → más cercano persigue, otro cubre)
 - [ ] T023 [US5] Integrar `CpuBrain` en `scenes/characters/player.gd` y `scenes/characters/player.tscn` reemplazando la llamada directa a `cpu_attack.update` cuando el jugador es CPU
-- [ ] T024 [US5] Check headless `tests/decision_tree_check.gd`: todo camino termina en `DecisionAction`; casos fijos (tengo balón cerca del arco → SHOOT; balón libre y soy el más cercano → CHASE_BALL); imprime "OK"
+- [ ] T024 [US5] Check headless `tests/decision_tree_check.gd`: todo camino termina en `DecisionAction`; casos fijos (tengo balón cerca del arco → SHOOT; balón libre y soy el más cercano → CHASE_BALL); además corre un partido CPU vs CPU headless de 2 min y verifica ≥4 tipos de `DecisionAction` distintos registrados por `CpuBrain` (SC-004); imprime "OK"
 
 ---
 
@@ -133,7 +133,7 @@ description: "Task list: Producto final DSJRetro"
 
 **Goal**: llaves de 8. **Independent Test**: quickstart HU-07 + check. Depende de US2, US3, US6, US15, US16 y de US8–US11 aprobados (8 clubes).
 
-- [ ] T028 [US7] Crear `Tournament` (RefCounted) en `scenes/tournament/tournament.gd` (data-model.md `Tournament.clubs`, `Tournament.round`, `Tournament.matches`): barajar, cruces, `record_player_result(won)`, resolver CPU vs CPU ponderado por plantilla, `eliminated`, `champion`
+- [ ] T028 [US7] Crear `Tournament` (RefCounted) en `scenes/tournament/tournament.gd` (data-model.md `Tournament.clubs`, `Tournament.round`, `Tournament.matches`, `Tournament.winners`): barajar, cruces, `record_player_result(won)`, resolver CPU vs CPU ponderado por plantilla, `eliminated`, `champion`
 - [ ] T029 [US7] Check headless `tests/tournament_check.gd`: 8 clubes → 4/2/1 cruces; ganar 3 veces → campeón = jugador; perder → eliminado; siempre hay ganador; imprime "OK"
 - [ ] T030 [US7] Crear `scenes/screens/bracket.tscn` + `bracket.gd`: dibuja cruces con banderas, resalta jugador, K continúa al partido; muestra campeón/eliminado y vuelve al menú
 - [ ] T031 [US7] Al terminar partido en SINGLE, `scenes/match/match_controller.gd` llama `GameSession.tournament.record_player_result()`, sube `GameSession.level` y vuelve a `bracket.tscn`; R reinicia solo el partido
@@ -143,6 +143,7 @@ description: "Task list: Producto final DSJRetro"
 ## Phase 11: US8–US11 - Diseño de 4 clubes nuevos (P2, en paralelo)
 
 **Goal**: kits, banderas y plantillas aprobadas. **Independent Test**: quickstart HU-08..11.
+Un club en `PROPOSED` puede mergearse a `main` pero queda oculto en selección y llaves hasta `APPROVED` (FR-012, constitución II; data-model.md `ClubData.design_status`).
 
 - [ ] T032 Ampliar `assets/art/palettes/teams-color-palette.png` a 8×17 (filas 13–16 vacías) y `hint_range(0, 16)` en `scenes/match/player_palette.gdshader`
 - [ ] T033 [P] [US8] Universitario: fila 13 con colores de research.md R6, `assets/art/ui/flags/flag-universitario.png` 22×14, `scenes/clubs/universitario.tres` `design_status = PROPOSED`
