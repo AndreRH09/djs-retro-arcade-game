@@ -50,8 +50,13 @@ func _run() -> void:
 	# El equipo 0 sin humano en esa posición necesita IA completa.
 	for player in _players():
 		if player.control_scheme == Player.ControlScheme.CPU:
-			_expect(player.cpu_defense != null and player.cpu_patrol.route != null
-				and player.cpu_attack.attack_target != null, "CPU sin cablear: " + player.name)
+			_expect(player.cpu_defense != null and player.cpu_attack.attack_target != null,
+				"CPU sin cablear: " + player.name)
+			# La patrulla de cada CPU debe quedar en su propia mitad (equipo 0 izquierda, 1 derecha).
+			var route := player.cpu_patrol.route
+			if route != null:
+				_expect((route.global_position.x < 425.0) == (player.team_id == 0),
+					"ruta en mitad equivocada: " + player.name)
 
 	for error in _errors:
 		push_error(error)

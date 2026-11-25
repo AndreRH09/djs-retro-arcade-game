@@ -84,8 +84,8 @@ func _wire_cpu(player: Player) -> void:
 	player.cpu_interceptor.ball = ball
 	player.cpu_interceptor.enabled = true
 	if player.cpu_patrol.route == null:
-		player.cpu_patrol.route = _mirrored_route()
-	player.cpu_patrol.enabled = player.cpu_patrol.route != null
+		player.cpu_patrol.route = _mirrored_route(player.team_id)
+		player.cpu_patrol.enabled = player.cpu_patrol.route != null
 	if player.cpu_defense == null:
 		var defense := CpuBallDefense.new()
 		defense.name = "CpuBallDefense"
@@ -99,15 +99,17 @@ func _wire_cpu(player: Player) -> void:
 
 var _mirror_route: CpuPatrolRoute
 
-## Ruta de patrulla del rival reflejada en el centro de la cancha.
-func _mirrored_route() -> CpuPatrolRoute:
-	if is_instance_valid(_mirror_route):
-		return _mirror_route
+## Ruta de patrulla del rival reflejada en el centro de la cancha, solo para el equipo sin ruta propia.
+## Un compañero sin ruta en un equipo que ya la tiene conserva su comportamiento de escena.
+func _mirrored_route(team: int) -> CpuPatrolRoute:
 	var source: CpuPatrolRoute
 	for player in players:
-		if is_instance_valid(player) and player.cpu_patrol.route != null:
+		if is_instance_valid(player) and player.cpu_patrol.route != null and player.cpu_patrol.route != _mirror_route:
+			if player.team_id == team:
+				return null
 			source = player.cpu_patrol.route
-			break
+	if is_instance_valid(_mirror_route):
+		return _mirror_route
 	if source == null:
 		return null
 	var mirror_x := func(point: Vector2) -> Vector2: return Vector2(2.0 * kickoff_position.x - point.x, point.y)

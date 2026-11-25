@@ -4,7 +4,7 @@ extends Node
 enum Mode {SINGLE, PVP}
 
 const CLUBS_DIR := "res://scenes/clubs/"
-## Mientras no exista la selección de equipo, el partido usa el cruce original.
+## Cruce usado al abrir match.tscn directamente desde el editor.
 const DEFAULT_HOME := &"melgar"
 const DEFAULT_AWAY := &"alianza"
 
