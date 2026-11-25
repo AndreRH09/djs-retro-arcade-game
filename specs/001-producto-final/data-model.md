@@ -9,13 +9,14 @@
 | flag | Texture2D | 22×14 |
 | team_row | int | 9–16, única por club |
 | shirt_pattern | int | 0 liso, 1 mitades, 2 franjas |
-| squad | Array[SquadPlayer] | exactamente 2 |
+| squad | Array[SquadPlayer] | exactamente 6: 1 GOALIE, 2 DEFENSE, 2 MIDFIELD, 1 OFFENSE |
 | design_status | enum | PROPOSED → APPROVED (solo APPROVED seleccionable) |
 
 ## SquadPlayer (Resource)
 | Campo | Tipo | Regla |
 |---|---|---|
 | player_name | String | ficticio, ≤ 10 chars |
+| role | enum | GOALIE, DEFENSE, MIDFIELD, OFFENSE |
 | skin_row | int | 0–2 |
 | speed | float | 100–140 |
 | power | float | 0.8–1.2 |
@@ -42,5 +43,11 @@
 - Validación: todo camino termina en DecisionAction (check en `tests/decision_tree_check.gd`).
 
 ## TeamController (Node)
-`scheme: Player.ControlScheme` (P1|P2), `players: Array[Player]`, `controlled: Player`.
-Invariante: exactamente un jugador del equipo con `scheme`, el resto CPU.
+`scheme: Player.ControlScheme` (P1|P2), `players: Array[Player]` (solo jugadores de campo, sin GOALIE), `controlled: Player`.
+Invariante: exactamente un jugador del equipo con `scheme`, el resto CPU; el GOALIE nunca recibe `scheme`.
+
+## Formation (Resource)
+| Campo | Tipo | Regla |
+|---|---|---|
+| slots | Array[Dictionary] | 6 entradas `{role, kickoff_position: Vector2, zone: Rect2}` relativas a la mitad propia |
+| Regla | | equipo visitante usa posiciones espejadas en X; cantidad por rol = composición de `ClubData.squad` |

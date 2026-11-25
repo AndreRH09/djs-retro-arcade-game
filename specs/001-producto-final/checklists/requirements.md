@@ -31,4 +31,4 @@
 
 ## Notes
 
-- Defaults tomados sin clarificación: 2v2 sin arquero, campeonato solo en un jugador, partido a 3 goles sin empates, nombres de jugadores ficticios.
+- Defaults tomados sin clarificación: 6v6 con arquero en todos los modos (corregido por el usuario), campeonato solo en un jugador, partido a 3 goles sin empates, nombres de jugadores ficticios.

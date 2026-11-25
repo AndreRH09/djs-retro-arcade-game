@@ -24,3 +24,5 @@ godot --headless --path . --script res://tests/decision_tree_check.gd    # esper
 | HU-12 | Iniciar partido | nombres de plantilla visibles; diferencias de velocidad |
 | HU-13 | Cristal vs Cienciano | marcador con sus banderas y nombres |
 | HU-14 | Navegar menú y llaves | música y sfx de navegación |
+| HU-15 | Partido completo; anotar un gol | 6 por lado en formación; todos vuelven a su posición en el saque; fluido |
+| HU-16 | 20 disparos al arco por nivel | ataja 20–40% (N1) / 40–60% (N3); saca el balón tras atrapar; ningún control humano lo toma |

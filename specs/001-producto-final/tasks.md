@@ -25,9 +25,9 @@ description: "Task list: Producto final DSJRetro"
 
 ## Phase 2: Foundational (bloquea todas las historias)
 
-- [ ] T003 [P] Crear Resource `SquadPlayer` en `scenes/clubs/squad_player.gd` (data-model.md `SquadPlayer.player_name`, `SquadPlayer.skin_row`, `SquadPlayer.speed`, `SquadPlayer.power`)
+- [ ] T003 [P] Crear Resource `SquadPlayer` en `scenes/clubs/squad_player.gd` (data-model.md `SquadPlayer.player_name`, `SquadPlayer.role`, `SquadPlayer.skin_row`, `SquadPlayer.speed`, `SquadPlayer.power`)
 - [ ] T004 [P] Crear Resource `ClubData` en `scenes/clubs/club_data.gd` (data-model.md `ClubData.id`, `ClubData.display_name`, `ClubData.short_name`, `ClubData.flag`, `ClubData.team_row`, `ClubData.shirt_pattern`, `ClubData.squad`, `ClubData.design_status`)
-- [ ] T005 Crear `scenes/clubs/{melgar,alianza,cristal,cienciano}.tres` con filas 9–12, patrones actuales, banderas existentes, `design_status = APPROVED` y 2 SquadPlayer ficticios cada uno
+- [ ] T005 Crear `scenes/clubs/{melgar,alianza,cristal,cienciano}.tres` con filas 9–12, patrones actuales, banderas existentes, `design_status = APPROVED` y 6 SquadPlayer ficticios cada uno (data-model.md `ClubData.squad`: 1 GOALIE, 2 DEFENSE, 2 MIDFIELD, 1 OFFENSE)
 - [ ] T006 Crear autoload `GameSession` en `scenes/session/game_session.gd` (data-model.md `GameSession.mode`, `GameSession.home_club`, `GameSession.away_club`, `GameSession.level`, `GameSession.tournament`) con `get_clubs()` que carga `scenes/clubs/*.tres`; registrar en `project.godot`
 - [ ] T007 Agregar `Player.set_control(scheme)` en `scenes/characters/player.gd` que cambia `control_scheme` y llama `reset_cpu_controllers()`
 - [ ] T008 `MatchController.apply_session()` en `scenes/match/match_controller.gd`: aplica `team_row`, `shirt_pattern` y skin de cada club al material de `playerSprite`; default Melgar vs Alianza si `GameSession` vacío (la escena sigue jugable sola)
@@ -58,7 +58,7 @@ description: "Task list: Producto final DSJRetro"
 
 **Goal**: solo P1 controla, cambio al más cercano. **Independent Test**: quickstart HU-03.
 
-- [ ] T013 [US3] Crear `TeamController` en `scenes/match/team_controller.gd` (data-model.md `TeamController.scheme`, `TeamController.players`, `TeamController.controlled`): cada physics frame, sin posesión → más cercano al balón con histéresis 8 px; nunca jugador en `RECOVERING`; resto `CPU` vía `Player.set_control`
+- [ ] T013 [US3] Crear `TeamController` en `scenes/match/team_controller.gd` (data-model.md `TeamController.scheme`, `TeamController.players`, `TeamController.controlled`): cada physics frame, sin posesión → jugador de campo más cercano al balón (nunca GOALIE) con histéresis 8 px; nunca jugador en `RECOVERING`; resto `CPU` vía `Player.set_control`
 - [ ] T014 [US3] Cambiar control al receptor tras pase propio: escuchar señal de liberación de `scenes/characters/ball/player_ball_interaction.gd` en `team_controller.gd`
 - [ ] T015 [US3] `MatchController` instancia 1 `TeamController(P1)` para equipo 0 en SINGLE y deja equipo 1 en CPU en `scenes/match/match_controller.gd`; quitar asignación fija P1/P2 de `scenes/match/match.tscn`
 - [ ] T016 [US3] Indicador del jugador controlado con color P1/P2 sigue al jugador activo en `scenes/match/match_player_indicator.gd`
@@ -106,9 +106,32 @@ description: "Task list: Producto final DSJRetro"
 
 ---
 
+## Phase 9A: US15 - Partido 6v6 con formación (P2)
+
+**Goal**: 12 jugadores en cancha por rol. **Independent Test**: quickstart HU-15.
+
+- [ ] T046 [US15] Prueba de escala: instanciar 6 `player.tscn` por lado en `scenes/match/match.tscn`; ajustar tamaño de cancha / `movement_bounds` y `scenes/match/match_camera.gd` si 12 jugadores no caben (research.md R9)
+- [ ] T047 [P] [US15] Crear Resource `Formation` en `scenes/match/formation.gd` y `scenes/match/formation_default.tres` 1-2-2-1 (data-model.md `Formation.slots`)
+- [ ] T048 [US15] `MatchController` instancia jugadores desde `ClubData.squad` (data-model.md `ClubData.squad`, `SquadPlayer.role`) y los coloca con `Formation` espejada para el visitante en `scenes/match/match_controller.gd`; `_prepare_kickoff` restablece la formación
+- [ ] T049 [US15] `CpuBrain` regresa a cada jugador a la zona de su rol cuando no persigue el balón (ruta de `cpu_patrol` = zona) en `scenes/characters/ai/cpu_brain.gd`
+- [ ] T050 [US15] Medir fps con 12 jugadores en partido completo (SC-010); si cae, subir `decision_interval` de CPU lejanas al balón
+
+---
+
+## Phase 9B: US16 - Arquero (P2)
+
+**Goal**: arquero CPU que ataja y saca. **Independent Test**: quickstart HU-16.
+
+- [ ] T051 [US16] Crear `CpuGoalie` en `scenes/characters/ai/cpu_goalie.gd`: sigue proyección del balón sobre la línea (`scenes/ball/ball_prediction.gd`), se lanza ante disparo a su alcance con probabilidad/reacción de `CpuDifficulty`, con balón espera 0.5 s y pasa o despeja (research.md R10)
+- [ ] T052 [US16] Estado/animación de estirada en `scenes/characters/player.gd` y `scenes/characters/player.tscn`; protección contra entradas dentro del área en `scenes/characters/ball/player_ball_tackle.gd`
+- [ ] T053 [US16] Activar `CpuGoalie` (y nunca `TeamController`) en jugadores con `SquadPlayer.role == GOALIE` desde `scenes/match/match_controller.gd`
+- [ ] T054 [US16] Ajustar tasa de atajada por nivel con 20 disparos de prueba por nivel hasta cumplir SC-011
+
+---
+
 ## Phase 10: US7 - Campeonato 3 niveles (P2)
 
-**Goal**: llaves de 8. **Independent Test**: quickstart HU-07 + check. Depende de US2, US3, US6 y de US8–US11 aprobados (8 clubes).
+**Goal**: llaves de 8. **Independent Test**: quickstart HU-07 + check. Depende de US2, US3, US6, US15, US16 y de US8–US11 aprobados (8 clubes).
 
 - [ ] T028 [US7] Crear `Tournament` (RefCounted) en `scenes/tournament/tournament.gd` (data-model.md `Tournament.clubs`, `Tournament.round`, `Tournament.matches`): barajar, cruces, `record_player_result(won)`, resolver CPU vs CPU ponderado por plantilla, `eliminated`, `champion`
 - [ ] T029 [US7] Check headless `tests/tournament_check.gd`: 8 clubes → 4/2/1 cruces; ganar 3 veces → campeón = jugador; perder → eliminado; siempre hay ganador; imprime "OK"
@@ -157,7 +180,8 @@ description: "Task list: Producto final DSJRetro"
 
 - Setup → Foundational → historias.
 - US1 → US2 → (US3, US13 en paralelo) → US4 (usa `TeamController` de US3).
-- US5 → US6 → US7. US7 también requiere US8–US11 aprobados.
+- US5 → US6 → US15 → US16 → US7. US7 también requiere US8–US11 aprobados.
+- T046–T054 se numeraron al final (añadidos al pasar a 6v6) pero se ejecutan antes de US7 (Phase 10).
 - US8–US11 independientes entre sí y del código (diseño), arrancan tras T032.
 - US12 tras Foundational; US14 tras US1/US7.
 
@@ -166,7 +190,7 @@ description: "Task list: Producto final DSJRetro"
 | Sprint | Historias | Tasks |
 |---|---|---|
 | 1 | US1, US2, US3, US4, US13 | T001–T019 |
-| 2 | US5, US6 | T020–T027 |
+| 2 | US5, US6, US15, US16 | T020–T027, T046–T054 |
 | Diseño (paralelo S1–S2) | US8–US11 | T032–T038 |
 | 3 | US7, US12, US14 + Polish | T028–T031, T039–T045 |
 

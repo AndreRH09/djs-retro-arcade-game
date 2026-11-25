@@ -50,9 +50,9 @@ partido arranca con los equipos elegidos.
 
 ### User Story 3 - Single Player con un manager de acciones (HU-03, Priority: P1)
 
-En un jugador solo existe un control humano (P1). P1 controla a un jugador de su equipo a la vez;
-el control pasa automáticamente al jugador más cercano al balón cuando su equipo no lo tiene. El
-compañero y todo el equipo rival son controlados por la CPU.
+En un jugador solo existe un control humano (P1). P1 controla a un jugador de campo de su equipo a
+la vez; el control pasa automáticamente al jugador de campo más cercano al balón cuando su equipo
+no lo tiene. Sus compañeros (incluido el arquero) y todo el equipo rival son controlados por la CPU.
 
 **Why this priority**: Es el modo principal y base del campeonato.
 
@@ -71,8 +71,8 @@ P2 no mueven a nadie, y el control cambia de jugador al perder el balón.
 ### User Story 4 - PvP local con dos managers (HU-04, Priority: P1)
 
 Dos personas en el mismo teclado: P1 controla un equipo completo y P2 el otro. No hay rival CPU;
-dentro de cada equipo el compañero no controlado lo maneja la CPU como apoyo, y el control cambia
-al más cercano al balón igual que en un jugador.
+dentro de cada equipo los jugadores no controlados y el arquero los maneja la CPU como apoyo, y el
+control cambia al jugador de campo más cercano al balón igual que en un jugador.
 
 **Why this priority**: Modo frente a frente pedido explícitamente; reutiliza el control de HU-03.
 
@@ -100,7 +100,7 @@ comportamiento según la situación y el registro de decisiones muestra varias r
 
 **Acceptance Scenarios**:
 
-1. **Given** el rival humano tiene el balón, **When** la CPU decide, **Then** un jugador CPU presiona y el otro cubre el arco.
+1. **Given** el rival humano tiene el balón, **When** la CPU decide, **Then** el jugador CPU más cercano presiona y el resto mantiene la posición de su rol (defensa, medio, delantero).
 2. **Given** la CPU tiene el balón cerca del arco rival, **When** decide, **Then** intenta disparar.
 3. **Given** la CPU tiene el balón y un marcador cerca, **When** su compañero está libre, **Then** puede pasar.
 4. **Given** el balón suelto, **When** la CPU decide, **Then** el jugador CPU más cercano va por él.
@@ -169,8 +169,8 @@ sin afectar los 4 kits existentes.
 
 ### User Story 12 - Plantillas por equipo (HU-12, Priority: P3)
 
-Cada club tiene plantilla con nombres de jugadores, tono de piel, velocidad y potencia. Se muestran
-al iniciar cada partido del campeonato y afectan el juego.
+Cada club tiene plantilla de 6 jugadores (1 arquero + 5 de campo) con nombre, rol, tono de piel,
+velocidad y potencia. Se muestran al iniciar cada partido del campeonato y afectan el juego.
 
 **Why this priority**: Profundidad y representación; no bloquea el flujo jugable.
 
@@ -215,7 +215,49 @@ Música propia en menú y pantalla de llaves; sonido al navegar y confirmar opci
 
 ---
 
+### User Story 15 - Partido 6v6 con formación (HU-15, Priority: P2)
+
+Cada partido enfrenta 6 contra 6: 1 arquero y 5 de campo por equipo (defensas, medios,
+delanteros). Cada jugador ocupa la zona de su rol, la cámara sigue el balón y en cada saque todos
+vuelven a su formación.
+
+**Why this priority**: Formato oficial de los partidos del campeonato; requisito de HU-07.
+
+**Independent Test**: Partido de prueba: 12 jugadores en cancha, cada uno vuelve a su posición de
+formación tras un gol y se mueve dentro de su zona.
+
+**Acceptance Scenarios**:
+
+1. **Given** inicio de partido, **When** se hace el saque, **Then** hay 6 jugadores por equipo en posición de formación.
+2. **Given** un gol, **When** se reanuda, **Then** todos vuelven a su posición de formación.
+3. **Given** el balón en campo rival, **When** juega la CPU, **Then** los defensas no abandonan su mitad salvo para recuperar.
+4. **Given** 12 jugadores en pantalla, **When** se juega, **Then** el juego se mantiene fluido.
+
+---
+
+### User Story 16 - Arquero (HU-16, Priority: P2)
+
+Cada equipo tiene un arquero controlado siempre por la CPU que se mueve sobre su línea, se lanza a
+atajar disparos al arco y, al atrapar el balón, lo despeja o lo pasa a un compañero.
+
+**Why this priority**: Parte del formato 6v6; sin arquero los goles son triviales.
+
+**Independent Test**: Escena de disparos contra el arco: el arquero ataja una parte de los tiros y
+saca el balón tras atraparlo.
+
+**Acceptance Scenarios**:
+
+1. **Given** un disparo hacia el arco, **When** está a su alcance, **Then** el arquero se lanza y puede atajar.
+2. **Given** el arquero con el balón, **When** pasa un momento breve, **Then** pasa a un compañero o despeja.
+3. **Given** el nivel 3, **When** se compara con el nivel 1, **Then** el arquero rival ataja con más frecuencia.
+4. **Given** cualquier modo, **When** se juega, **Then** ningún control humano toma al arquero.
+
+---
+
 ### Edge Cases
+
+- Arquero atrapa el balón mientras un rival lo presiona: el rival no puede quitárselo dentro del área.
+- Balón queda detenido dentro del área chica: el arquero sale a recogerlo.
 
 - Ambos jugadores en PvP pulsan confirmar a la vez sobre el mismo club: gana quien confirmó primero; el otro debe elegir otro.
 - El jugador controlado está derribado (recuperándose de entrada) cuando debería cambiar el control: el cambio espera o pasa al compañero disponible.
@@ -246,11 +288,15 @@ Música propia en menú y pantalla de llaves; sonido al navegar y confirmar opci
 - **FR-016**: Menú y llaves MUST tener música propia; navegación y confirmación MUST tener sonido.
 - **FR-017**: Un partido MUST terminar cuando un equipo llega a 3 goles (sin empates).
 - **FR-018**: Toda UI MUST estar en español.
+- **FR-019**: Cada partido MUST ser 6v6: 1 arquero y 5 jugadores de campo por equipo, ubicados por rol en una formación fija que se restablece en cada saque.
+- **FR-020**: El arquero MUST ser controlado siempre por la CPU, atajar disparos a su alcance y reiniciar el juego (pase o despeje) tras atrapar el balón.
+- **FR-021**: El cambio de control humano MUST considerar solo jugadores de campo.
 
 ### Key Entities
 
 - **Club**: nombre, nombre corto para marcador, bandera, kit (colores y patrón), plantilla, estado de diseño (Propuesto/Aprobado).
-- **Jugador de plantilla**: nombre, piel, velocidad, potencia; pertenece a un Club.
+- **Jugador de plantilla**: nombre, rol (arquero/defensa/medio/delantero), piel, velocidad, potencia; pertenece a un Club (6 por club).
+- **Formación**: posición inicial y zona de cada rol en la cancha para cada lado.
 - **Sesión de juego**: modo (Un jugador/PvP), clubes elegidos, nivel actual.
 - **Campeonato**: 8 clubes, cruces por ronda, ganadores, ronda actual, campeón.
 - **Perfil de dificultad**: reacción, anticipación, precisión; asociado a un nivel.
@@ -269,13 +315,15 @@ Música propia en menú y pantalla de llaves; sonido al navegar y confirmar opci
 - **SC-007**: Los 4 diseños nuevos tienen aprobación registrada antes de su integración.
 - **SC-008**: 5 de 5 evaluadores identifican correctamente los dos clubes en cualquier cruce viendo solo el campo.
 - **SC-009**: 0 errores de script al cargar y jugar cada pantalla.
+- **SC-010**: Con 12 jugadores en cancha el juego se mantiene fluido (sin caídas perceptibles) durante un partido completo.
+- **SC-011**: En 20 disparos de prueba a nivel 1, el arquero ataja entre 20% y 40%; a nivel 3, entre 40% y 60%.
 
 ## Assumptions
 
-- Se mantiene formato 2v2 sin arquero dedicado; arquero queda fuera de alcance (posible feature futura).
+- Todos los partidos (campeonato y PvP) son 6v6 con arquero, igual que la referencia del tutorial; el partido 2v2 actual es la base que se escala.
 - El campeonato existe solo en modo un jugador; PvP es partido amistoso con revancha.
 - Partido a 3 goles como hoy; no hay tiempo límite ni empates, por lo que no se requiere tanda de penales.
-- Plantilla de 2 jugadores por club con nombres ficticios (no jugadores reales) para evitar uso de identidad real.
+- Plantilla de 6 jugadores por club con nombres ficticios (no jugadores reales) para evitar uso de identidad real.
 - Colores de clubes inspirados en los reales, con escudos propios simplificados (no logos oficiales).
 - Controles de teclado actuales (P1 flechas/K/L, P2 WASD/F/G); mandos fuera de alcance.
 - El tutorial nicolasbize/soccer-course es referencia de flujo (pantallas, llaves, plantillas); su código no se copia.

@@ -6,8 +6,10 @@
 
 ## Summary
 
-Convertir el partido 2v2 actual en un juego completo: menú → selección → (campeonato de 3 niveles
-| PvP amistoso) → partido. Un autoload `GameSession` guarda modo, clubes y nivel. Cada equipo humano
+Convertir el partido 2v2 actual en un juego completo 6v6 con arquero: menú → selección →
+(campeonato de 3 niveles | PvP amistoso) → partido. `MatchController` instancia 6 jugadores por
+equipo desde la plantilla del club y los ubica según una `Formation` por rol; un `CpuGoalie`
+controla siempre al arquero. Un autoload `GameSession` guarda modo, clubes y nivel. Cada equipo humano
 recibe un `TeamController` (manager de acciones) que asigna `Player.ControlScheme` P1/P2 al jugador
 más cercano al balón y CPU al resto: Single Player instancia 1, PvP instancia 2. La IA pasa a un
 `CpuBrain` que evalúa un árbol de decisión (recursos) y activa los componentes CPU existentes. Los
@@ -32,7 +34,7 @@ pantallas y llaves se inspira en `nicolasbize/soccer-course` sin copiar código.
 
 **Constraints**: Viewport 280×180, pixel art, escalado entero; teclado compartido P1/P2; UI en español
 
-**Scale/Scope**: 4 pantallas nuevas (menú, selección, llaves, resultado), 8 clubes × 2 jugadores, 3 perfiles de dificultad, 14 HU
+**Scale/Scope**: 4 pantallas nuevas (menú, selección, llaves, resultado), 8 clubes × 6 jugadores (12 en cancha), 3 perfiles de dificultad, 16 HU
 
 ## Constitution Check
 
@@ -44,6 +46,7 @@ pantallas y llaves se inspira en `nicolasbize/soccer-course` sin copiar código.
 | II. Kits por paleta + shader | ✅ | Filas 13–16 en paleta; sin sprites nuevos; aprobación de preview antes de merge (HU-08..11) |
 | III. Referencia, no copia | ✅ | Llaves y pantallas reimplementadas; créditos ya en `THIRD_PARTY_NOTICES.md` (ampliar si se usa música `menu.mp3`/`tournament.mp3`) |
 | IV. Verificable por historia | ✅ | Cada HU tiene escena/check en quickstart; `tournament_check.gd` y `decision_tree_check.gd` con assert |
+| I/V. 6v6 | ✅ | Jugadores instanciados desde `player.tscn` existente; arquero = componente `CpuGoalie`, no escena nueva |
 | V. Simplicidad | ✅ | Cambio de escena con `change_scene_to_file`; sin state machine genérica de pantallas ni factories |
 
 Post-diseño: sin violaciones. Complexity Tracking vacío.
@@ -80,10 +83,13 @@ scenes/
 │   └── bracket.tscn/.gd           # HU-07
 ├── match/
 │   ├── team_controller.gd         # HU-03/04 manager de acciones
+│   ├── formation.gd               # HU-15 Resource posiciones por rol
+│   ├── formation_default.tres     # 1-2-2-1 (GK, 2 DEF, 2 MED, 1 DEL)
 │   ├── match_controller.gd        # (mod) aplica GameSession
 │   └── match_hud.gd               # (mod) HU-13
 ├── characters/ai/
 │   ├── cpu_brain.gd               # HU-05 evalúa árbol
+│   ├── cpu_goalie.gd              # HU-16 arquero
 │   ├── decision_node.gd           # Resource condición
 │   ├── decision_action.gd         # Resource hoja
 │   └── trees/default_tree.tres
