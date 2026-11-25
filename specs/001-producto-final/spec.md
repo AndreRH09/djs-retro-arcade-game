@@ -10,7 +10,7 @@
 
 ## User Scenarios & Testing *(mandatory)*
 
-### User Story 1 - Menú principal (HU-01, Priority: P1)
+### User Story 1 - Menú principal (HU-08, Priority: P1)
 
 Al iniciar el juego el jugador ve un menú con "Un jugador", "PvP local" y "Salir", navegable con
 teclado.
@@ -29,7 +29,7 @@ destino (selección de equipo o cierre).
 
 ---
 
-### User Story 2 - Selección de equipo (HU-02, Priority: P1)
+### User Story 2 - Selección de equipo (HU-08, Priority: P1)
 
 El jugador elige su club entre 8 equipos peruanos viendo bandera y nombre. En PvP, P1 y P2 eligen
 cada uno su equipo y no pueden elegir el mismo.
@@ -48,7 +48,7 @@ partido arranca con los equipos elegidos.
 
 ---
 
-### User Story 3 - Single Player con un manager de acciones (HU-03, Priority: P1)
+### User Story 3 - Single Player con un manager de acciones (HU-12, Priority: P1)
 
 En un jugador solo existe un control humano (P1). P1 controla a un jugador de campo de su equipo a
 la vez; el control pasa automáticamente al jugador de campo más cercano al balón cuando su equipo
@@ -68,13 +68,13 @@ P2 no mueven a nadie, y el control cambia de jugador al perder el balón.
 
 ---
 
-### User Story 4 - PvP local con dos managers (HU-04, Priority: P1)
+### User Story 4 - PvP local con dos managers (HU-13, Priority: P1)
 
 Dos personas en el mismo teclado: P1 controla un equipo completo y P2 el otro. No hay rival CPU;
 dentro de cada equipo los jugadores no controlados y el arquero los maneja la CPU como apoyo, y el
 control cambia al jugador de campo más cercano al balón igual que en un jugador.
 
-**Why this priority**: Modo frente a frente pedido explícitamente; reutiliza el control de HU-03.
+**Why this priority**: Modo frente a frente pedido explícitamente; reutiliza el control de HU-12.
 
 **Independent Test**: Partido PvP donde P1 solo afecta a su equipo y P2 solo al suyo.
 
@@ -87,7 +87,7 @@ control cambia al jugador de campo más cercano al balón igual que en un jugado
 
 ---
 
-### User Story 5 - IA rival por árbol de decisión (HU-05, Priority: P2)
+### User Story 5 - IA rival por árbol de decisión (HU-14, Priority: P2)
 
 Los jugadores CPU deciden qué hacer (presionar, interceptar, cubrir, atacar, pasar, disparar)
 según la situación del partido (quién tiene el balón, distancia al balón y al arco, posición del
@@ -107,12 +107,12 @@ comportamiento según la situación y el registro de decisiones muestra varias r
 
 ---
 
-### User Story 6 - Dificultad por nivel (HU-06, Priority: P2)
+### User Story 6 - Dificultad por nivel (HU-09, Priority: P2)
 
 La IA rival es más rápida en reaccionar, anticipa mejor y es más precisa en cada nivel del
 campeonato: nivel 1 fácil, nivel 2 normal, nivel 3 difícil.
 
-**Why this priority**: Da progresión al campeonato; depende de HU-05.
+**Why this priority**: Da progresión al campeonato; depende de HU-14.
 
 **Independent Test**: Jugar un partido forzando cada nivel y comparar el tiempo de reacción y la
 precisión de la CPU.
@@ -125,13 +125,13 @@ precisión de la CPU.
 
 ---
 
-### User Story 7 - Campeonato de 3 niveles (HU-07, Priority: P2)
+### User Story 7 - Campeonato de 3 niveles (HU-09, Priority: P2)
 
 En un jugador, el equipo elegido entra a un torneo de llaves de 8 clubes: cuartos (nivel 1),
 semifinal (nivel 2) y final (nivel 3). Una pantalla de llaves muestra los cruces; los partidos
 entre equipos CPU se resuelven automáticamente. Perder elimina; ganar la final corona campeón.
 
-**Why this priority**: Objetivo de producto del modo un jugador; depende de HU-02, HU-03 y HU-06.
+**Why this priority**: Objetivo de producto del modo un jugador; depende de HU-08, HU-12 y HU-09.
 
 **Independent Test**: Completar un torneo (o forzar resultados) y verificar avance, eliminación y
 pantalla de campeón.
@@ -145,14 +145,14 @@ pantalla de campeón.
 
 ---
 
-### User Story 8-11 - Diseño de 4 equipos nuevos (HU-08 a HU-11, Priority: P2)
+### User Story 8-11 - Diseño de 4 equipos nuevos (HU-15 a HU-18, Priority: P2)
 
 Se agregan Universitario (crema/granate), Sport Huancayo (naranja), ADT (celeste/blanco) y Cusco
 FC (dorado/negro). Cada uno tiene kit (camiseta, pantalón, medias, patrón), bandera para marcador
 y llaves, y representación de sus jugadores. Cada diseño se presenta como vista previa y solo se
 integra tras aprobación.
 
-Una historia por club: HU-08 Universitario, HU-09 Sport Huancayo, HU-10 ADT, HU-11 Cusco FC.
+Una historia por club: HU-15 Universitario, HU-16 Sport Huancayo, HU-17 ADT, HU-18 Cusco FC.
 
 **Why this priority**: Necesarios para completar 8 equipos del campeonato; diseño en paralelo.
 
@@ -167,7 +167,7 @@ sin afectar los 4 kits existentes.
 
 ---
 
-### User Story 12 - Plantillas por equipo (HU-12, Priority: P3)
+### User Story 12 - Plantillas por equipo (HU-19, Priority: P3)
 
 Cada club tiene plantilla de 6 jugadores (1 arquero + 5 de campo) con nombre, rol, tono de piel,
 velocidad y potencia. Se muestran al iniciar cada partido del campeonato y afectan el juego.
@@ -184,11 +184,11 @@ velocidad/potencia según plantilla.
 
 ---
 
-### User Story 13 - HUD dinámico (HU-13, Priority: P1)
+### User Story 13 - HUD dinámico (HU-20, Priority: P1)
 
 El marcador muestra nombre y bandera de los equipos que realmente juegan, no valores fijos.
 
-**Why this priority**: Requisito directo de HU-02; hoy el marcador siempre dice MELGAR/ALIANZA.
+**Why this priority**: Requisito directo de HU-08; hoy el marcador siempre dice MELGAR/ALIANZA.
 
 **Independent Test**: Elegir dos clubes distintos y verificar nombres y banderas en marcador y
 avisos de gol.
@@ -200,7 +200,7 @@ avisos de gol.
 
 ---
 
-### User Story 14 - Audio de menú y torneo (HU-14, Priority: P3)
+### User Story 14 - Audio de menú y torneo (HU-21, Priority: P3)
 
 Música propia en menú y pantalla de llaves; sonido al navegar y confirmar opciones.
 
@@ -215,13 +215,13 @@ Música propia en menú y pantalla de llaves; sonido al navegar y confirmar opci
 
 ---
 
-### User Story 15 - Partido 6v6 con formación (HU-15, Priority: P2)
+### User Story 15 - Partido 6v6 con formación (HU-22, Priority: P2)
 
 Cada partido enfrenta 6 contra 6: 1 arquero y 5 de campo por equipo (defensas, medios,
 delanteros). Cada jugador ocupa la zona de su rol, la cámara sigue el balón y en cada saque todos
 vuelven a su formación.
 
-**Why this priority**: Formato oficial de los partidos del campeonato; requisito de HU-07.
+**Why this priority**: Formato oficial de los partidos del campeonato; requisito de HU-09.
 
 **Independent Test**: Partido de prueba: 12 jugadores en cancha, cada uno vuelve a su posición de
 formación tras un gol y se mueve dentro de su zona.
@@ -235,7 +235,7 @@ formación tras un gol y se mueve dentro de su zona.
 
 ---
 
-### User Story 16 - Arquero (HU-16, Priority: P2)
+### User Story 16 - Arquero (HU-23, Priority: P2)
 
 Cada equipo tiene un arquero controlado siempre por la CPU que se mueve sobre su línea, se lanza a
 atajar disparos al arco y, al atrapar el balón, lo despeja o lo pasa a un compañero.

@@ -43,7 +43,7 @@ pantallas y llaves se inspira en `nicolasbize/soccer-course` sin copiar código.
 | Principio | Cumple | Cómo |
 |---|---|---|
 | I. Componentes Godot | ✅ | `TeamController`, `CpuBrain` son nodos-componente; `player.gd` solo gana un método `set_control()` |
-| II. Kits por paleta + shader | ✅ | Filas 13–16 en paleta; sin sprites nuevos; aprobación de preview antes de merge (HU-08..11) |
+| II. Kits por paleta + shader | ✅ | Filas 13–16 en paleta; sin sprites nuevos; aprobación de preview antes de merge (HU-15..18) |
 | III. Referencia, no copia | ✅ | Llaves y pantallas reimplementadas; créditos ya en `THIRD_PARTY_NOTICES.md` (ampliar si se usa música `menu.mp3`/`tournament.mp3`) |
 | IV. Verificable por historia | ✅ | Cada HU tiene escena/check en quickstart; `tournament_check.gd` y `decision_tree_check.gd` con assert |
 | I/V. 6v6 | ✅ | Jugadores instanciados desde `player.tscn` existente; arquero = componente `CpuGoalie`, no escena nueva |
@@ -78,23 +78,23 @@ scenes/
 │   ├── squad_player.gd            # Resource
 │   └── *.tres                     # 8 clubes
 ├── screens/
-│   ├── main_menu.tscn/.gd         # HU-01
-│   ├── team_selection.tscn/.gd    # HU-02
-│   └── bracket.tscn/.gd           # HU-07
+│   ├── main_menu.tscn/.gd         # HU-08
+│   ├── team_selection.tscn/.gd    # HU-08
+│   └── bracket.tscn/.gd           # HU-09
 ├── match/
-│   ├── team_controller.gd         # HU-03/04 manager de acciones
-│   ├── formation.gd               # HU-15 Resource posiciones por rol
+│   ├── team_controller.gd         # HU-12/04 manager de acciones
+│   ├── formation.gd               # HU-22 Resource posiciones por rol
 │   ├── formation_default.tres     # 1-2-2-1 (GK, 2 DEF, 2 MED, 1 DEL)
 │   ├── match_controller.gd        # (mod) aplica GameSession
-│   └── match_hud.gd               # (mod) HU-13
+│   └── match_hud.gd               # (mod) HU-20
 ├── characters/ai/
-│   ├── cpu_brain.gd               # HU-05 evalúa árbol
-│   ├── cpu_goalie.gd              # HU-16 arquero
+│   ├── cpu_brain.gd               # HU-14 evalúa árbol
+│   ├── cpu_goalie.gd              # HU-23 arquero
 │   ├── decision_node.gd           # Resource condición
 │   ├── decision_action.gd         # Resource hoja
 │   └── trees/default_tree.tres
 └── tournament/
-    └── tournament.gd              # HU-07 RefCounted
+    └── tournament.gd              # HU-09 RefCounted
 tests/
 ├── tournament_check.gd
 └── decision_tree_check.gd

@@ -10,7 +10,7 @@ description: "Task list: Producto final DSJRetro"
 
 **Tests**: no se pidió TDD. Solo los checks headless que exige la constitución (Principio IV) para lógica no trivial (torneo, árbol de decisión).
 
-**Organization**: una fase por historia. `USn` = `HU-0n` del spec (US8–US11 = HU-08..HU-11).
+**Organization**: una fase por historia. `USn` = historia n del spec; su HU de Notion va en el encabezado de cada fase (US1–US2 = HU-08, US3 = HU-12, US4 = HU-13, US5 = HU-14, US6–US7 = HU-09, US8–US11 = HU-15..HU-18, US12 = HU-19, US13 = HU-20, US14 = HU-21, US15 = HU-22, US16 = HU-23).
 
 ## Format: `[ID] [P?] [Story] Description`
 
@@ -38,7 +38,7 @@ description: "Task list: Producto final DSJRetro"
 
 ## Phase 3: US1 - Menú principal (P1) 🎯 MVP
 
-**Goal**: pantalla de entrada con 3 opciones. **Independent Test**: quickstart HU-01.
+**Goal**: pantalla de entrada con 3 opciones. **Independent Test**: quickstart HU-08.
 
 - [ ] T009 [US1] Crear `scenes/screens/main_menu.tscn` + `main_menu.gd`: opciones Un jugador / PvP local / Salir, navegación ↑↓ y confirmar; fija `GameSession.mode` y cambia a `team_selection.tscn`
 - [ ] T010 [US1] Cambiar `run/main_scene` a `res://scenes/screens/main_menu.tscn` en `project.godot`
@@ -47,7 +47,7 @@ description: "Task list: Producto final DSJRetro"
 
 ## Phase 4: US2 - Selección de equipo (P1)
 
-**Goal**: elegir club(es). **Independent Test**: quickstart HU-02.
+**Goal**: elegir club(es). **Independent Test**: quickstart HU-08.
 
 - [ ] T011 [US2] Crear `scenes/screens/team_selection.tscn` + `team_selection.gd`: carrusel de clubes con `ClubData.design_status == APPROVED` (data-model.md `ClubData.design_status`), muestra bandera y `display_name`
 - [ ] T012 [US2] PvP en `team_selection.gd`: P2 elige con A/D/F, bloquear club ya confirmado por el otro jugador (si confirman el mismo club en el mismo frame gana el primero en procesarse, P1), Esc vuelve al menú; al confirmar setea `GameSession.home_club/away_club` y va a `bracket.tscn` (SINGLE) o `match.tscn` (PVP)
@@ -56,7 +56,7 @@ description: "Task list: Producto final DSJRetro"
 
 ## Phase 5: US3 - Single Player, un manager de acciones (P1)
 
-**Goal**: solo P1 controla, cambio al más cercano. **Independent Test**: quickstart HU-03.
+**Goal**: solo P1 controla, cambio al más cercano. **Independent Test**: quickstart HU-12.
 
 - [ ] T013 [US3] Crear `TeamController` en `scenes/match/team_controller.gd` (data-model.md `TeamController.scheme`, `TeamController.players`, `TeamController.controlled`): cada physics frame, sin posesión → jugador de campo más cercano al balón (nunca GOALIE) con histéresis 8 px; nunca jugador en `RECOVERING`; resto `CPU` vía `Player.set_control`
 - [ ] T014 [US3] Cambiar control al receptor tras pase propio: escuchar señal de liberación de `scenes/characters/ball/player_ball_interaction.gd` en `team_controller.gd`
@@ -67,7 +67,7 @@ description: "Task list: Producto final DSJRetro"
 
 ## Phase 6: US4 - PvP local, dos managers (P1)
 
-**Goal**: P1 vs P2. **Independent Test**: quickstart HU-04.
+**Goal**: P1 vs P2. **Independent Test**: quickstart HU-13.
 
 - [ ] T017 [US4] En PVP instanciar `TeamController(P1)` equipo 0 y `TeamController(P2)` equipo 1 en `scenes/match/match_controller.gd`
 - [ ] T018 [US4] Esc durante partido PvP vuelve al menú; R revancha con mismos clubes en `scenes/match/match_session.gd`
@@ -76,7 +76,7 @@ description: "Task list: Producto final DSJRetro"
 
 ## Phase 7: US13 - HUD dinámico (P1)
 
-**Goal**: marcador con clubes reales. **Independent Test**: quickstart HU-13.
+**Goal**: marcador con clubes reales. **Independent Test**: quickstart HU-20.
 
 - [ ] T019 [US13] `scenes/match/match_hud.gd` lee `flag` y `short_name` de `GameSession.home_club/away_club` (data-model.md `ClubData.flag`, `ClubData.short_name`) en vez de constantes MELGAR/ALIANZA; dibujar bandera a tamaño nativo 22×14 o recortada a la barra (fix visual pendiente de PR #1)
 
@@ -86,7 +86,7 @@ description: "Task list: Producto final DSJRetro"
 
 ## Phase 8: US5 - IA por árbol de decisión (P2)
 
-**Goal**: CPU decide por árbol. **Independent Test**: quickstart HU-05 + check.
+**Goal**: CPU decide por árbol. **Independent Test**: quickstart HU-14 + check.
 
 - [ ] T020 [P] [US5] Crear Resources `DecisionNode` y `DecisionAction` en `scenes/characters/ai/decision_node.gd` y `decision_action.gd` (data-model.md `DecisionNode.condition`, `DecisionNode.threshold`, `DecisionNode.yes`, `DecisionNode.no`, `DecisionAction.action`)
 - [ ] T021 [US5] Crear `CpuBrain` en `scenes/characters/ai/cpu_brain.gd`: evalúa condiciones de research.md R2 cada `CpuDifficulty.decision_interval`, activa/desactiva `cpu_ball_interceptor`, `cpu_ball_defense`, `cpu_patrol`, `cpu_ball_attack` según la hoja; registra última acción para debug
@@ -98,7 +98,7 @@ description: "Task list: Producto final DSJRetro"
 
 ## Phase 9: US6 - Dificultad por nivel (P2)
 
-**Goal**: nivel 1/2/3 = easy/normal/hard. **Independent Test**: quickstart HU-06.
+**Goal**: nivel 1/2/3 = easy/normal/hard. **Independent Test**: quickstart HU-09.
 
 - [ ] T025 [US6] `MatchController.apply_session()` asigna `easy/normal/hard.tres` a `CpuMovement.difficulty` de jugadores CPU según `GameSession.level` (data-model.md `GameSession.level`) en `scenes/match/match_controller.gd`
 - [ ] T026 [US6] `CpuBrain` aplica ruido ±`target_error` a umbrales del árbol en `scenes/characters/ai/cpu_brain.gd`
@@ -108,7 +108,7 @@ description: "Task list: Producto final DSJRetro"
 
 ## Phase 9A: US15 - Partido 6v6 con formación (P2)
 
-**Goal**: 12 jugadores en cancha por rol. **Independent Test**: quickstart HU-15.
+**Goal**: 12 jugadores en cancha por rol. **Independent Test**: quickstart HU-22.
 
 - [ ] T046 [US15] Prueba de escala: instanciar 6 `player.tscn` por lado en `scenes/match/match.tscn`; ajustar tamaño de cancha / `movement_bounds` y `scenes/match/match_camera.gd` si 12 jugadores no caben (research.md R9)
 - [ ] T047 [P] [US15] Crear Resource `Formation` en `scenes/match/formation.gd` y `scenes/match/formation_default.tres` 1-2-2-1 (data-model.md `Formation.slots`)
@@ -120,7 +120,7 @@ description: "Task list: Producto final DSJRetro"
 
 ## Phase 9B: US16 - Arquero (P2)
 
-**Goal**: arquero CPU que ataja y saca. **Independent Test**: quickstart HU-16.
+**Goal**: arquero CPU que ataja y saca. **Independent Test**: quickstart HU-23.
 
 - [ ] T051 [US16] Crear `CpuGoalie` en `scenes/characters/ai/cpu_goalie.gd`: sigue proyección del balón sobre la línea (`scenes/ball/ball_prediction.gd`), se lanza ante disparo a su alcance con probabilidad/reacción de `CpuDifficulty`, con balón espera 0.5 s y pasa o despeja (research.md R10)
 - [ ] T052 [US16] Estado/animación de estirada en `scenes/characters/player.gd` y `scenes/characters/player.tscn`; protección contra entradas dentro del área en `scenes/characters/ball/player_ball_tackle.gd`
@@ -131,7 +131,7 @@ description: "Task list: Producto final DSJRetro"
 
 ## Phase 10: US7 - Campeonato 3 niveles (P2)
 
-**Goal**: llaves de 8. **Independent Test**: quickstart HU-07 + check. Depende de US2, US3, US6, US15, US16 y de US8–US11 aprobados (8 clubes).
+**Goal**: llaves de 8. **Independent Test**: quickstart HU-09 + check. Depende de US2, US3, US6, US15, US16 y de US8–US11 aprobados (8 clubes).
 
 - [ ] T028 [US7] Crear `Tournament` (RefCounted) en `scenes/tournament/tournament.gd` (data-model.md `Tournament.clubs`, `Tournament.round`, `Tournament.matches`, `Tournament.winners`): barajar, cruces, `record_player_result(won)`, resolver CPU vs CPU ponderado por plantilla, `eliminated`, `champion`
 - [ ] T029 [US7] Check headless `tests/tournament_check.gd`: 8 clubes → 4/2/1 cruces; ganar 3 veces → campeón = jugador; perder → eliminado; siempre hay ganador; imprime "OK"
@@ -142,7 +142,7 @@ description: "Task list: Producto final DSJRetro"
 
 ## Phase 11: US8–US11 - Diseño de 4 clubes nuevos (P2, en paralelo)
 
-**Goal**: kits, banderas y plantillas aprobadas. **Independent Test**: quickstart HU-08..11.
+**Goal**: kits, banderas y plantillas aprobadas. **Independent Test**: quickstart HU-15..18.
 Un club en `PROPOSED` puede mergearse a `main` pero queda oculto en selección y llaves hasta `APPROVED` (FR-012, constitución II; data-model.md `ClubData.design_status`).
 
 - [ ] T032 Ampliar `assets/art/palettes/teams-color-palette.png` a 8×17 (filas 13–16 vacías) y `hint_range(0, 16)` en `scenes/match/player_palette.gdshader`
