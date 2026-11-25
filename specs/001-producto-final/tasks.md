@@ -60,7 +60,7 @@ description: "Task list: Producto final DSJRetro"
 
 - [ ] T013 [US3] Crear `TeamController` en `scenes/match/team_controller.gd` (data-model.md `TeamController.scheme`, `TeamController.players`, `TeamController.controlled`): cada physics frame, sin posesión → jugador de campo más cercano al balón (nunca GOALIE) con histéresis 8 px; nunca jugador en `RECOVERING`; resto `CPU` vía `Player.set_control`
 - [ ] T014 [US3] Cambiar control al receptor tras pase propio: escuchar señal de liberación de `scenes/characters/ball/player_ball_interaction.gd` en `team_controller.gd`
-- [ ] T015 [US3] `MatchController` instancia 1 `TeamController(P1)` para equipo 0 en SINGLE y deja equipo 1 en CPU en `scenes/match/match_controller.gd`; quitar asignación fija P1/P2 de `scenes/match/match.tscn`
+- [ ] T015 [US3] `MatchController` instancia 1 `TeamController(P1)` para equipo 0 en SINGLE y deja equipo 1 en CPU en `scenes/match/match_controller.gd`; quitar asignación fija P1/P2 de `scenes/match/match.tscn` — PARCIAL: `assign_controls()` fija el humano al primer jugador del equipo; falta el cambio al más cercano (T013)
 - [ ] T016 [US3] Indicador del jugador controlado con color P1/P2 sigue al jugador activo en `scenes/match/match_player_indicator.gd`
 
 ---
@@ -69,8 +69,8 @@ description: "Task list: Producto final DSJRetro"
 
 **Goal**: P1 vs P2. **Independent Test**: quickstart HU-13.
 
-- [ ] T017 [US4] En PVP instanciar `TeamController(P1)` equipo 0 y `TeamController(P2)` equipo 1 en `scenes/match/match_controller.gd`
-- [ ] T018 [US4] Esc durante partido PvP vuelve al menú; R revancha con mismos clubes en `scenes/match/match_session.gd`
+- [ ] T017 [US4] En PVP instanciar `TeamController(P1)` equipo 0 y `TeamController(P2)` equipo 1 en `scenes/match/match_controller.gd` — PARCIAL: `assign_controls()` fija el humano al primer jugador del equipo; falta el cambio al más cercano (T013)
+- [x] T018 [US4] Esc durante partido PvP vuelve al menú; R revancha con mismos clubes en `scenes/match/match_session.gd`
 
 ---
 
@@ -145,11 +145,11 @@ description: "Task list: Producto final DSJRetro"
 **Goal**: kits, banderas y plantillas aprobadas. **Independent Test**: quickstart HU-15..18.
 Un club en `PROPOSED` puede mergearse a `main` pero queda oculto en selección y llaves hasta `APPROVED` (FR-012, constitución II; data-model.md `ClubData.design_status`).
 
-- [ ] T032 Ampliar `assets/art/palettes/teams-color-palette.png` a 8×17 (filas 13–16 vacías) y `hint_range(0, 16)` en `scenes/match/player_palette.gdshader`
-- [ ] T033 [P] [US8] Universitario: fila 13 con colores de research.md R6, `assets/art/ui/flags/flag-universitario.png` 22×14, `scenes/clubs/universitario.tres` `design_status = PROPOSED`
-- [ ] T034 [P] [US9] Sport Huancayo: fila 14, `flag-huancayo.png`, `scenes/clubs/huancayo.tres` PROPOSED
-- [ ] T035 [P] [US10] ADT: fila 15 (patrón 2 franjas), `flag-adt.png`, `scenes/clubs/adt.tres` PROPOSED
-- [ ] T036 [P] [US11] Cusco FC: fila 16, `flag-cusco.png`, `scenes/clubs/cusco.tres` PROPOSED
+- [x] T032 Ampliar `assets/art/palettes/teams-color-palette.png` a 8×17 (filas 13–16 vacías) y `hint_range(0, 16)` en `scenes/match/player_palette.gdshader`
+- [x] T033 [P] [US8] Universitario: fila 13 con colores de research.md R6, `assets/art/ui/flags/flag-universitario.png` 22×14, `scenes/clubs/universitario.tres` `design_status = PROPOSED`
+- [x] T034 [P] [US9] Sport Huancayo: fila 14, `flag-huancayo.png`, `scenes/clubs/huancayo.tres` PROPOSED
+- [x] T035 [P] [US10] ADT: fila 15 (patrón 2 franjas), `flag-adt.png`, `scenes/clubs/adt.tres` PROPOSED
+- [x] T036 [P] [US11] Cusco FC: fila 16, `flag-cusco.png`, `scenes/clubs/cusco.tres` PROPOSED
 - [ ] T037 Regenerar `docs/kits-liga1-preview.png` con los 8 kits y banderas; subir a la HU de Notion para aprobación
 - [ ] T038 Tras aprobación en Notion, poner `design_status = APPROVED` en cada `.tres` de `scenes/clubs/` (ajustar colores si "Con cambios")
 
@@ -164,7 +164,7 @@ Un club en `PROPOSED` puede mergearse a `main` pero queda oculto en selección y
 
 ## Phase 13: US14 - Audio menú y torneo (P3)
 
-- [ ] T041 [P] [US14] Agregar pistas `menu` y `tournament` a `scenes/audio/music_player.gd` y assets en `assets/music/`; créditos en `THIRD_PARTY_NOTICES.md`
+- [x] T041 [P] [US14] Agregar pistas `menu` y `tournament` a `scenes/audio/music_player.gd` y assets en `assets/music/`; créditos en `THIRD_PARTY_NOTICES.md`
 - [ ] T042 [US14] Agregar sfx `ui_navigate` a `scenes/audio/sound_player.gd` y llamarlo en `main_menu.gd`, `team_selection.gd`, `bracket.gd`
 
 ---

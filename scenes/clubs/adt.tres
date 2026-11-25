@@ -1,0 +1,64 @@
+[gd_resource type="Resource" script_class="ClubData" format=3]
+
+[ext_resource type="Script" path="res://scenes/clubs/club_data.gd" id="1_club"]
+[ext_resource type="Script" path="res://scenes/clubs/squad_player.gd" id="2_player"]
+[ext_resource type="Texture2D" path="res://assets/art/ui/flags/flag-adt.png" id="3_flag"]
+
+[sub_resource type="Resource" id="p0"]
+script = ExtResource("2_player")
+player_name = "G. ARTEAGA"
+role = 0
+skin_row = 2
+speed = 112.0
+power = 0.9
+
+[sub_resource type="Resource" id="p1"]
+script = ExtResource("2_player")
+player_name = "T. VELIZ"
+role = 1
+skin_row = 1
+speed = 120.0
+power = 1.0
+
+[sub_resource type="Resource" id="p2"]
+script = ExtResource("2_player")
+player_name = "B. SALAZAR"
+role = 1
+skin_row = 0
+speed = 123.0
+power = 0.95
+
+[sub_resource type="Resource" id="p3"]
+script = ExtResource("2_player")
+player_name = "C. HUERTA"
+role = 2
+skin_row = 1
+speed = 129.0
+power = 1.05
+
+[sub_resource type="Resource" id="p4"]
+script = ExtResource("2_player")
+player_name = "K. MEZA"
+role = 2
+skin_row = 2
+speed = 127.0
+power = 1.1
+
+[sub_resource type="Resource" id="p5"]
+script = ExtResource("2_player")
+player_name = "V. ORE"
+role = 3
+skin_row = 0
+speed = 135.0
+power = 1.15
+
+[resource]
+script = ExtResource("1_club")
+id = &"adt"
+display_name = "ADT"
+short_name = "ADT"
+flag = ExtResource("3_flag")
+team_row = 15
+shirt_pattern = 2
+squad = Array[ExtResource("2_player")]([SubResource("p0"), SubResource("p1"), SubResource("p2"), SubResource("p3"), SubResource("p4"), SubResource("p5")])
+design_status = 0

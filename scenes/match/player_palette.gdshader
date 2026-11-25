@@ -9,8 +9,9 @@ shader_type canvas_item;
 uniform sampler2D team_palette : source_color, filter_nearest, repeat_disable;
 uniform sampler2D skin_palette : source_color, filter_nearest, repeat_disable;
 // Equipación: 1 = blanca / azul; 8 = azul / roja (selección).
-// Liga 1: 9 = Melgar, 10 = Alianza Lima, 11 = Sporting Cristal, 12 = Cienciano.
-uniform int team_row : hint_range(0, 12) = 1;
+// Liga 1: 9 = Melgar, 10 = Alianza Lima, 11 = Sporting Cristal, 12 = Cienciano,
+// 13 = Universitario, 14 = Sport Huancayo, 15 = ADT, 16 = Cusco FC.
+uniform int team_row : hint_range(0, 16) = 1;
 // Piel: 0 = clara, 1 = intermedia, 2 = oscura.
 uniform int skin_row : hint_range(0, 2) = 0;
 // Diseño de la camiseta: 0 = liso, 1 = mitades (Melgar), 2 = franjas verticales (Alianza).

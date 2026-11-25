@@ -46,8 +46,82 @@ func _ready() -> void:
 		for goal in goals:
 			if is_instance_valid(goal):
 				ball.goal_openings.append(goal.get_definition())
+	assign_controls()
 	apply_session()
 	start_match()
+
+
+## Un manager humano por equipo controlado: SINGLE = P1 en el equipo 0; PVP = P1 en el 0 y P2 en el 1.
+## El resto queda en CPU con su IA cableada hacia la portería rival.
+func assign_controls() -> void:
+	var humans := {0: Player.ControlScheme.P1}
+	if GameSession.mode == GameSession.Mode.PVP:
+		humans[1] = Player.ControlScheme.P2
+	for player in players:
+		if not is_instance_valid(player):
+			continue
+		var scheme: Player.ControlScheme = humans.get(player.team_id, Player.ControlScheme.CPU)
+		# ponytail: control fijo al primer jugador del equipo; cambio al más cercano llega con TeamController (T013).
+		humans.erase(player.team_id)
+		player.set_control(scheme)
+		if scheme == Player.ControlScheme.CPU:
+			_wire_cpu(player)
+
+
+## Completa solo las referencias que la escena no trae (el equipo 0 nació humano).
+func _wire_cpu(player: Player) -> void:
+	var attacked: SoccerGoal
+	var defended: SoccerGoal
+	for goal in goals:
+		if is_instance_valid(goal):
+			if goal.scoring_team == player.team_id:
+				attacked = goal
+			else:
+				defended = goal
+	if player.cpu_attack.attack_target == null:
+		player.cpu_attack.attack_target = attacked
+	player.cpu_attack.enabled = true
+	player.cpu_interceptor.ball = ball
+	player.cpu_interceptor.enabled = true
+	if player.cpu_patrol.route == null:
+		player.cpu_patrol.route = _mirrored_route()
+	player.cpu_patrol.enabled = player.cpu_patrol.route != null
+	if player.cpu_defense == null:
+		var defense := CpuBallDefense.new()
+		defense.name = "CpuBallDefense"
+		defense.ball = ball
+		defense.movement = player.cpu_movement
+		defense.defended_goal = defended
+		defense.enabled = true
+		player.add_child(defense)
+		player.cpu_defense = defense
+
+
+var _mirror_route: CpuPatrolRoute
+
+## Ruta de patrulla del rival reflejada en el centro de la cancha.
+func _mirrored_route() -> CpuPatrolRoute:
+	if is_instance_valid(_mirror_route):
+		return _mirror_route
+	var source: CpuPatrolRoute
+	for player in players:
+		if is_instance_valid(player) and player.cpu_patrol.route != null:
+			source = player.cpu_patrol.route
+			break
+	if source == null:
+		return null
+	var mirror_x := func(point: Vector2) -> Vector2: return Vector2(2.0 * kickoff_position.x - point.x, point.y)
+	var parent := source.get_parent() as Node2D
+	_mirror_route = CpuPatrolRoute.new()
+	_mirror_route.show_route = false
+	_mirror_route.position = parent.to_local(mirror_x.call(source.global_position))
+	for point in source.get_waypoint_positions():
+		var marker := Marker2D.new()
+		marker.position = parent.to_local(mirror_x.call(point)) - _mirror_route.position
+		_mirror_route.add_child(marker)
+	# La escena sigue armando sus hijos durante _ready; se agrega al terminar.
+	parent.add_child.call_deferred(_mirror_route)
+	return _mirror_route
 
 
 ## Viste a cada equipo con el kit de su club (fila de paleta y patrón) y la piel de su plantilla.
@@ -146,8 +220,8 @@ func _find_kickoff_taker() -> Player:
 			continue
 		if not is_instance_valid(player.ball_interaction) or not player.ball_interaction.enabled or player.ball_interaction.ball != ball:
 			continue
-		# El primer jugador humano inicia el partido; los demás saques usan cercanía.
-		if kickoff_team == 0 and player.control_scheme == Player.ControlScheme.P1:
+		# El humano del equipo saca; sin humano, el más cercano.
+		if player.control_scheme != Player.ControlScheme.CPU:
 			return player
 		var distance := player.global_position.distance_squared_to(kickoff_position)
 		if distance < nearest_distance:
