@@ -39,6 +39,8 @@ func _ready() -> void:
 		_spawn_positions[player] = player.global_position
 		_spawn_headings[player] = player.heading
 		_player_processing[player] = player.is_physics_processing()
+		# Diferido: el nuevo humano no debe leer en este mismo frame el pase que pidió el cambio.
+		player.swap_requested.connect(_on_swap_requested, CONNECT_DEFERRED)
 	if is_instance_valid(ball):
 		_ball_processing = ball.is_physics_processing()
 		ball.goal_scored.connect(_on_goal_scored)
@@ -64,8 +66,25 @@ func assign_controls() -> void:
 		# ponytail: control fijo al primer jugador del equipo; cambio al más cercano llega con TeamController (T013).
 		humans.erase(player.team_id)
 		player.set_control(scheme)
-		if scheme == Player.ControlScheme.CPU:
-			_wire_cpu(player)
+		# Todos quedan cableados: el control cambia de jugador durante el partido.
+		_wire_cpu(player)
+
+
+## Pasa el control del solicitante al compañero CPU más cercano al balón, si está más cerca que él.
+func _on_swap_requested(requester: Player) -> void:
+	if state != State.PLAYING or not is_instance_valid(ball) or not is_instance_valid(requester):
+		return
+	if requester.control_scheme == Player.ControlScheme.CPU:
+		return
+	# ponytail: aún no hay arquero; excluir role GOALIE cuando llegue HU-23.
+	var closest := requester
+	for player in players:
+		if is_instance_valid(player) and player.team_id == requester.team_id 				and player.control_scheme == Player.ControlScheme.CPU 				and player.global_position.distance_squared_to(ball.global_position) 				< closest.global_position.distance_squared_to(ball.global_position):
+			closest = player
+	if closest != requester:
+		var scheme := requester.control_scheme
+		requester.set_control(Player.ControlScheme.CPU)
+		closest.set_control(scheme)
 
 
 ## Completa solo las referencias que la escena no trae (el equipo 0 nació humano).

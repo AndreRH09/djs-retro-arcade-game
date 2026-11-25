@@ -3,6 +3,9 @@ extends CharacterBody2D
 
 const DURATION_TACKLE := 0.2
 
+## Un humano sin balón pide cambiar al compañero CPU más cercano (como en el repo base).
+signal swap_requested(player: Player)
+
 enum ControlScheme {CPU, P1, P2}
 enum State {MOVING, TACKLING, RECOVERING}
 
@@ -61,7 +64,9 @@ func _physics_process(delta: float) -> void:
 		else:
 			update_movement(delta)
 		if control_scheme != ControlScheme.CPU and not has_ball():
-			if velocity.x != 0.0 and KeyUtils.is_action_just_pressed(
+			if KeyUtils.is_action_just_pressed(control_scheme, KeyUtils.Action.PASS):
+				_request_ball_or_swap()
+			elif velocity.x != 0.0 and KeyUtils.is_action_just_pressed(
 				control_scheme, KeyUtils.Action.SHOOT
 			):
 				start_tackle()
@@ -168,6 +173,16 @@ func flip_sprite() -> void:
 
 func has_ball() -> bool:
 	return ball_interaction.has_ball()
+
+
+## Pase sin balón: si un compañero CPU lo tiene, se lo pide; si no, pide el cambio de jugador.
+func _request_ball_or_swap() -> void:
+	var ball := ball_interaction.ball
+	var carrier := ball.carrier as Player if is_instance_valid(ball) else null
+	if carrier != null and carrier.team_id == team_id and carrier.control_scheme == ControlScheme.CPU:
+		carrier.ball_interaction.request_pass(self)
+	else:
+		swap_requested.emit(self)
 
 
 ## Cambia quién maneja al jugador durante el partido (managers de acciones de SP/PvP).

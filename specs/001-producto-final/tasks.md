@@ -58,10 +58,10 @@ description: "Task list: Producto final DSJRetro"
 
 **Goal**: solo P1 controla, cambio al más cercano. **Independent Test**: quickstart HU-12.
 
-- [ ] T013 [US3] Crear `TeamController` en `scenes/match/team_controller.gd` (data-model.md `TeamController.scheme`, `TeamController.players`, `TeamController.controlled`): cada physics frame, sin posesión → jugador de campo más cercano al balón (nunca GOALIE) con histéresis 8 px; nunca jugador en `RECOVERING`; resto `CPU` vía `Player.set_control`
+- [x] T013 [US3] Crear `TeamController` en `scenes/match/team_controller.gd` (data-model.md `TeamController.scheme`, `TeamController.players`, `TeamController.controlled`): cada physics frame, sin posesión → jugador de campo más cercano al balón (nunca GOALIE) con histéresis 8 px; nunca jugador en `RECOVERING`; resto `CPU` vía `Player.set_control` — HECHO como el repo base: pase sin balón cede el control al compañero CPU más cercano al balón (`Player.swap_requested` → `MatchController._on_swap_requested`); si un compañero CPU lleva el balón, se le pide el pase. Sin cambio automático por frame
 - [ ] T014 [US3] Cambiar control al receptor tras pase propio: escuchar señal de liberación de `scenes/characters/ball/player_ball_interaction.gd` en `team_controller.gd`
 - [ ] T015 [US3] `MatchController` instancia 1 `TeamController(P1)` para equipo 0 en SINGLE y deja equipo 1 en CPU en `scenes/match/match_controller.gd`; quitar asignación fija P1/P2 de `scenes/match/match.tscn` — PARCIAL: `assign_controls()` fija el humano al primer jugador del equipo; falta el cambio al más cercano (T013)
-- [ ] T016 [US3] Indicador del jugador controlado con color P1/P2 sigue al jugador activo en `scenes/match/match_player_indicator.gd`
+- [x] T016 [US3] Indicador del jugador controlado con color P1/P2 sigue al jugador activo en `scenes/match/match_player_indicator.gd` — HECHO: la etiqueta 1P/2P se dibuja según `control_scheme`, así que sigue al jugador activo tras el cambio
 
 ---
 

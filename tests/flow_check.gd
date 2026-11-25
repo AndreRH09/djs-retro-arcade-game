@@ -27,6 +27,7 @@ func _run() -> void:
 	_expect(GameSession.home_club.id == &"melgar", "SP: P1 debería jugar con Melgar")
 	_expect(GameSession.away_club != GameSession.home_club, "SP: el rival debe ser otro club")
 	_expect(_controls() == "0:CPU 0:P1 1:CPU 1:CPU", "SP: controles " + _controls())
+	await _check_swap()
 
 	# Esc vuelve al menú.
 	await _press("ui_cancel")
@@ -62,6 +63,28 @@ func _run() -> void:
 		push_error(error)
 	print("OK flujo" if _errors.is_empty() else "FALLO %d" % _errors.size())
 	tree.quit(0 if _errors.is_empty() else 1)
+
+
+## T013: pase sin balón cede el control al compañero CPU más cercano al balón.
+func _check_swap() -> void:
+	var controller := get_tree().current_scene.get_node("MatchController") as MatchController
+	while controller.state != MatchController.State.PLAYING:
+		await _frames(1)
+	var human: Player
+	var mate: Player
+	for player in _players():
+		if player.team_id == 0:
+			if player.control_scheme == Player.ControlScheme.P1:
+				human = player
+			else:
+				mate = player
+	# Balón suelto lejos de ambos pero más cerca del compañero: debe cambiar el control.
+	controller.ball.reset_to(mate.global_position + (mate.global_position - human.global_position).normalized() * 40.0)
+	await _press("p1_pass")
+	_expect(mate.control_scheme == Player.ControlScheme.P1 and human.control_scheme == Player.ControlScheme.CPU,
+		"swap: P1 debería pasar a " + mate.name)
+	# El nuevo humano queda cableado como CPU por si vuelve a cambiar.
+	_expect(human.cpu_defense != null and human.cpu_attack.attack_target != null, "swap: ex humano sin IA")
 
 
 func _players() -> Array[Player]:
