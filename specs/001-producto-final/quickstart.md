@@ -8,6 +8,8 @@
 godot --headless --path . --quit-after 300 2>&1 | grep "SCRIPT ERROR"   # esperado: vacío
 godot --headless --path . --script res://tests/tournament_check.gd       # esperado: "OK"
 godot --headless --path . --script res://tests/decision_tree_check.gd    # esperado: "OK"
+godot --headless --path . res://tests/flow_check.tscn 2>&1 | grep -E "OK flujo|FALLO|SCRIPT ERROR"   # esperado: solo "OK flujo"
+godot --headless --path . --script res://tests/clubs_check.gd             # esperado: "OK N clubes"
 ```
 
 ## Escenarios manuales

@@ -35,12 +35,15 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_echo() or _clubs.is_empty():
 		return
 	if event.is_action_pressed("ui_cancel"):
+		get_viewport().set_input_as_handled()
 		get_tree().change_scene_to_file(MENU)
 		return
 	for i in _player_count():
 		if _handle_player(i, event):
-			get_viewport().set_input_as_handled()
-			queue_redraw()
+			# Confirmar el último club cambia de escena y saca este nodo del árbol.
+			if is_inside_tree():
+				get_viewport().set_input_as_handled()
+				queue_redraw()
 			return
 
 

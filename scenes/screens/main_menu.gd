@@ -19,15 +19,16 @@ func _ready() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_echo():
 		return
+	# Se marca antes de actuar: _confirm() cambia de escena y saca este nodo del árbol.
 	if event.is_action_pressed("ui_up") or event.is_action_pressed("p1_up"):
+		get_viewport().set_input_as_handled()
 		_move(-1)
 	elif event.is_action_pressed("ui_down") or event.is_action_pressed("p1_down"):
+		get_viewport().set_input_as_handled()
 		_move(1)
 	elif event.is_action_pressed("ui_accept") or event.is_action_pressed("p1_pass"):
+		get_viewport().set_input_as_handled()
 		_confirm()
-	else:
-		return
-	get_viewport().set_input_as_handled()
 
 
 func _move(step: int) -> void:
