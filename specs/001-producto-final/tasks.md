@@ -19,7 +19,7 @@ description: "Task list: Producto final DSJRetro"
 ## Phase 1: Setup
 
 - [ ] T001 Crear carpetas `scenes/session/`, `scenes/clubs/`, `scenes/screens/`, `scenes/tournament/`, `tests/` según plan.md
-- [ ] T002 [P] Agregar acciones `ui_accept`/`ui_cancel` mapeadas a K/Esc (P1) y F (P2) en `project.godot` según contracts/ui-flow.md
+- [ ] T002 [P] Menús usan las acciones nativas `ui_accept`/`ui_cancel`/`ui_up`/`ui_down` de Godot más `KeyUtils` PASS (K/F) para confirmar; sin cambios en `project.godot` (se implementa junto a T009)
 
 ---
 
@@ -29,8 +29,8 @@ description: "Task list: Producto final DSJRetro"
 - [x] T004 [P] Crear Resource `ClubData` en `scenes/clubs/club_data.gd` (data-model.md `ClubData.id`, `ClubData.display_name`, `ClubData.short_name`, `ClubData.flag`, `ClubData.team_row`, `ClubData.shirt_pattern`, `ClubData.squad`, `ClubData.design_status`)
 - [x] T005 Crear `scenes/clubs/{melgar,alianza,cristal,cienciano}.tres` con filas 9–12, patrones actuales, banderas existentes, `design_status = APPROVED` y 6 SquadPlayer ficticios cada uno (data-model.md `ClubData.squad`: 1 GOALIE, 2 DEFENSE, 2 MIDFIELD, 1 OFFENSE)
 - [x] T006 Crear autoload `GameSession` en `scenes/session/game_session.gd` (data-model.md `GameSession.mode`, `GameSession.home_club`, `GameSession.away_club`, `GameSession.level`, `GameSession.tournament`) con `get_clubs()` que carga `scenes/clubs/*.tres`; registrar en `project.godot`
-- [ ] T007 Agregar `Player.set_control(scheme)` en `scenes/characters/player.gd` que cambia `control_scheme` y llama `reset_cpu_controllers()`
-- [ ] T008 `MatchController.apply_session()` en `scenes/match/match_controller.gd`: aplica `team_row`, `shirt_pattern` y skin de cada club al material de `playerSprite`; default Melgar vs Alianza si `GameSession` vacío (la escena sigue jugable sola)
+- [x] T007 Agregar `Player.set_control(scheme)` en `scenes/characters/player.gd` que cambia `control_scheme` y llama `reset_cpu_controllers()`
+- [x] T008 `MatchController.apply_session()` en `scenes/match/match_controller.gd`: aplica `team_row`, `shirt_pattern` y skin de cada club al material de `playerSprite`; default Melgar vs Alianza si `GameSession` vacío (la escena sigue jugable sola)
 
 **Checkpoint**: `match.tscn` corre headless sin `SCRIPT ERROR` con clubes desde `GameSession`.
 

@@ -170,6 +170,16 @@ func has_ball() -> bool:
 	return ball_interaction.has_ball()
 
 
+## Cambia quién maneja al jugador durante el partido (managers de acciones de SP/PvP).
+## Cancela cargas a medio hacer para que un tiro no se dispare con el control equivocado.
+func set_control(scheme: ControlScheme) -> void:
+	if scheme == control_scheme:
+		return
+	control_scheme = scheme
+	ball_interaction.reset()
+	reset_cpu_controllers()
+
+
 func reset_cpu_controllers() -> void:
 	cpu_patrol.reset()
 	cpu_interceptor.reset()

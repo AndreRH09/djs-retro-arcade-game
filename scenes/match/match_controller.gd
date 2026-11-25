@@ -46,7 +46,32 @@ func _ready() -> void:
 		for goal in goals:
 			if is_instance_valid(goal):
 				ball.goal_openings.append(goal.get_definition())
+	apply_session()
 	start_match()
+
+
+## Viste a cada equipo con el kit de su club (fila de paleta y patrón) y la piel de su plantilla.
+## Los colores y patrones viven en la paleta y el shader; aquí solo se eligen fila y patrón.
+func apply_session() -> void:
+	var next_in_team := {}
+	for player in players:
+		if not is_instance_valid(player) or not is_instance_valid(player.player_sprite):
+			continue
+		var club := GameSession.club_for_team(player.team_id)
+		var material := player.player_sprite.material as ShaderMaterial
+		if club == null or material == null:
+			continue
+		# La escena comparte un material por equipo; cada jugador necesita el suyo por la piel.
+		material = material.duplicate() as ShaderMaterial
+		material.set_shader_parameter("team_row", club.team_row)
+		material.set_shader_parameter("shirt_pattern", club.shirt_pattern)
+		var field := club.squad.filter(func(p: SquadPlayer) -> bool:
+			return p.role != SquadPlayer.Role.GOALIE)
+		if not field.is_empty():
+			var index: int = next_in_team.get(player.team_id, 0)
+			material.set_shader_parameter("skin_row", (field[index % field.size()] as SquadPlayer).skin_row)
+			next_in_team[player.team_id] = index + 1
+		player.player_sprite.material = material
 
 
 func _physics_process(delta: float) -> void:
