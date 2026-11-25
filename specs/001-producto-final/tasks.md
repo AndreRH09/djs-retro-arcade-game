@@ -151,7 +151,7 @@ Un club en `PROPOSED` puede mergearse a `main` pero queda oculto en selección y
 - [x] T035 [P] [US10] ADT: fila 15 (patrón 2 franjas), `flag-adt.png`, `scenes/clubs/adt.tres` PROPOSED
 - [x] T036 [P] [US11] Cusco FC: fila 16, `flag-cusco.png`, `scenes/clubs/cusco.tres` PROPOSED
 - [ ] T037 Regenerar `docs/kits-liga1-preview.png` con los 8 kits y banderas; subir a la HU de Notion para aprobación
-- [ ] T038 Tras aprobación en Notion, poner `design_status = APPROVED` en cada `.tres` de `scenes/clubs/` (ajustar colores si "Con cambios")
+- [x] T038 Tras aprobación en Notion, poner `design_status = APPROVED` en cada `.tres` de `scenes/clubs/` (ajustar colores si "Con cambios")
 
 ---
 

@@ -61,4 +61,4 @@ flag = ExtResource("3_flag")
 team_row = 16
 shirt_pattern = 2
 squad = Array[ExtResource("2_player")]([SubResource("p0"), SubResource("p1"), SubResource("p2"), SubResource("p3"), SubResource("p4"), SubResource("p5")])
-design_status = 0
+design_status = 1

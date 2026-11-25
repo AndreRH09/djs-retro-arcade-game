@@ -7,7 +7,7 @@ extends Node2D
 const MATCH := "res://scenes/match/match.tscn"
 const MENU := "res://scenes/screens/main_menu.tscn"
 const COLUMNS := 4
-const CELL := Vector2(56, 40)
+const CELL := Vector2(56, 44)
 const GRID_TOP := 40.0
 const FRAME := preload("res://assets/art/ui/flags/flag-selection.png")
 const INK := Color("dedede")
@@ -23,8 +23,7 @@ var _confirmed: Array[bool] = [false, false]
 
 
 func _ready() -> void:
-	# Se muestran también los diseños propuestos, marcados, para poder revisarlos jugando.
-	_clubs = GameSession.get_clubs(false)
+	_clubs = GameSession.get_clubs()
 	_cursor[1] = mini(1, _clubs.size() - 1)
 
 
@@ -110,8 +109,7 @@ func _draw() -> void:
 	for index in _clubs.size():
 		var flag_pos := _cell_origin(index) + Vector2(6, 4)
 		draw_texture_rect(_clubs[index].flag, Rect2(flag_pos, Vector2(44, 28)), false)
-		if _clubs[index].design_status != ClubData.DesignStatus.APPROVED:
-			PixelText.draw_centered(self, "PROPUESTO", flag_pos + Vector2(22, 34), 4, INK)
+		PixelText.draw_centered(self, _clubs[index].short_name, flag_pos + Vector2(22, 38), 4, INK)
 		for i in _player_count():
 			if _cursor[i] == index:
 				var color := CONFIRMED if _confirmed[i] else PLAYER_COLORS[i]
