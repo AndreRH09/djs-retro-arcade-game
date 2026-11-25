@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="CpuDifficulty" format=3 uid="uid://cg7e1kxnxxlo"]
+
+[ext_resource type="Script" uid="uid://dprt80n2ijhxg" path="res://scenes/characters/ai/cpu_difficulty.gd" id="1_profile"]
+
+[resource]
+resource_name = "Hard"
+script = ExtResource("1_profile")
+decision_interval = 0.06
+prediction_time = 0.45
+target_error = 0.0
