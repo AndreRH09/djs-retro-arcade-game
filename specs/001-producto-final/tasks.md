@@ -25,10 +25,10 @@ description: "Task list: Producto final DSJRetro"
 
 ## Phase 2: Foundational (bloquea todas las historias)
 
-- [ ] T003 [P] Crear Resource `SquadPlayer` en `scenes/clubs/squad_player.gd` (data-model.md `SquadPlayer.player_name`, `SquadPlayer.role`, `SquadPlayer.skin_row`, `SquadPlayer.speed`, `SquadPlayer.power`)
-- [ ] T004 [P] Crear Resource `ClubData` en `scenes/clubs/club_data.gd` (data-model.md `ClubData.id`, `ClubData.display_name`, `ClubData.short_name`, `ClubData.flag`, `ClubData.team_row`, `ClubData.shirt_pattern`, `ClubData.squad`, `ClubData.design_status`)
-- [ ] T005 Crear `scenes/clubs/{melgar,alianza,cristal,cienciano}.tres` con filas 9–12, patrones actuales, banderas existentes, `design_status = APPROVED` y 6 SquadPlayer ficticios cada uno (data-model.md `ClubData.squad`: 1 GOALIE, 2 DEFENSE, 2 MIDFIELD, 1 OFFENSE)
-- [ ] T006 Crear autoload `GameSession` en `scenes/session/game_session.gd` (data-model.md `GameSession.mode`, `GameSession.home_club`, `GameSession.away_club`, `GameSession.level`, `GameSession.tournament`) con `get_clubs()` que carga `scenes/clubs/*.tres`; registrar en `project.godot`
+- [x] T003 [P] Crear Resource `SquadPlayer` en `scenes/clubs/squad_player.gd` (data-model.md `SquadPlayer.player_name`, `SquadPlayer.role`, `SquadPlayer.skin_row`, `SquadPlayer.speed`, `SquadPlayer.power`)
+- [x] T004 [P] Crear Resource `ClubData` en `scenes/clubs/club_data.gd` (data-model.md `ClubData.id`, `ClubData.display_name`, `ClubData.short_name`, `ClubData.flag`, `ClubData.team_row`, `ClubData.shirt_pattern`, `ClubData.squad`, `ClubData.design_status`)
+- [x] T005 Crear `scenes/clubs/{melgar,alianza,cristal,cienciano}.tres` con filas 9–12, patrones actuales, banderas existentes, `design_status = APPROVED` y 6 SquadPlayer ficticios cada uno (data-model.md `ClubData.squad`: 1 GOALIE, 2 DEFENSE, 2 MIDFIELD, 1 OFFENSE)
+- [x] T006 Crear autoload `GameSession` en `scenes/session/game_session.gd` (data-model.md `GameSession.mode`, `GameSession.home_club`, `GameSession.away_club`, `GameSession.level`, `GameSession.tournament`) con `get_clubs()` que carga `scenes/clubs/*.tres`; registrar en `project.godot`
 - [ ] T007 Agregar `Player.set_control(scheme)` en `scenes/characters/player.gd` que cambia `control_scheme` y llama `reset_cpu_controllers()`
 - [ ] T008 `MatchController.apply_session()` en `scenes/match/match_controller.gd`: aplica `team_row`, `shirt_pattern` y skin de cada club al material de `playerSprite`; default Melgar vs Alianza si `GameSession` vacío (la escena sigue jugable sola)
 
@@ -78,7 +78,7 @@ description: "Task list: Producto final DSJRetro"
 
 **Goal**: marcador con clubes reales. **Independent Test**: quickstart HU-20.
 
-- [ ] T019 [US13] `scenes/match/match_hud.gd` lee `flag` y `short_name` de `GameSession.home_club/away_club` (data-model.md `ClubData.flag`, `ClubData.short_name`) en vez de constantes MELGAR/ALIANZA; dibujar bandera a tamaño nativo 22×14 o recortada a la barra (fix visual pendiente de PR #1)
+- [x] T019 [US13] `scenes/match/match_hud.gd` lee `flag` y `short_name` de `GameSession.home_club/away_club` (data-model.md `ClubData.flag`, `ClubData.short_name`) en vez de constantes MELGAR/ALIANZA; dibujar bandera a tamaño nativo 22×14 o recortada a la barra (fix visual pendiente de PR #1)
 
 **Checkpoint MVP (Sprint 1)**: menú → selección → partido SP o PvP con HUD correcto.
 
